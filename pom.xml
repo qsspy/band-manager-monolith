@@ -19,6 +19,7 @@
 		<module>boot</module>
 		<module>bands</module>
 		<module>commons</module>
+		<module>jpa-data-model</module>
 	</modules>
 
 	<properties>
@@ -45,6 +46,11 @@
 			<dependency>
 				<groupId>com.qsspy</groupId>
 				<artifactId>commons</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.qsspy</groupId>
+				<artifactId>jpa-data-model</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>

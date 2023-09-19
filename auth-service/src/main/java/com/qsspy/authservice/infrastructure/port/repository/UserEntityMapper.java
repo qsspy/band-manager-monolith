@@ -1,6 +1,7 @@
 package com.qsspy.authservice.infrastructure.port.repository;
 
 import com.qsspy.authservice.application.register.port.input.RegisterCommand;
+import com.qsspy.jpadatamodel.entity.UserEntity;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 

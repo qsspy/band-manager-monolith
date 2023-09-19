@@ -1,10 +1,7 @@
-package com.qsspy.authservice.infrastructure.port.repository;
+package com.qsspy.jpadatamodel.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.UUID;
 
@@ -13,16 +10,11 @@ import java.util.UUID;
 @AllArgsConstructor
 @Entity(name = "USERS")
 @Getter
-class UserEntity {
+@Setter
+public class UserEntity {
     @Id
     @Column(name = "ID")
     private UUID id;
-
-    @Column(name = "BAND_ID")
-    private UUID bandId;
-
-    @Column(name = "OWN_BAND_ID")
-    private UUID ownBandId;
 
     @Column(name = "FIRST_NAME")
     private String firstName;
@@ -35,4 +27,12 @@ class UserEntity {
 
     @Column(name = "PASSWORD")
     private String password;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "OWN_BAND_ID", referencedColumnName = "ID")
+    private BandEntity ownedBand;
+
+    @ManyToOne
+    @JoinColumn(name="MEMBER_BAND_ID", referencedColumnName = "ID")
+    private BandEntity memberBand;
 }

@@ -39,7 +39,7 @@ class JwtLoginService implements LoginService {
         return Jwts
                 .builder()
                 .setSubject(email)
-                .claim(CustomJwtClaim.USER_ID, userId)
+                .claim(CustomJwtClaim.USER_ID, userId.toString())
                 .setIssuedAt(new Date(currentDateTimestamp))
                 .setExpiration(new Date(currentDateTimestamp + expirationTimeAsMillis()))
                 .signWith(key, SignatureAlgorithm.HS512).compact();

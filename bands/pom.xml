@@ -11,4 +11,31 @@
 
     <artifactId>bands</artifactId>
 
+    <dependencies>
+        <dependency>
+            <groupId>com.qsspy</groupId>
+            <artifactId>commons</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.qsspy</groupId>
+            <artifactId>jpa-data-model</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.qsspy</groupId>
+            <artifactId>auth-service</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
+    </dependencies>
+
 </project>

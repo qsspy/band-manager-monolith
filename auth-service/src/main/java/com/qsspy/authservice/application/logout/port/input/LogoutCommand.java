@@ -1,7 +1,7 @@
 package com.qsspy.authservice.application.logout.port.input;
 
-import com.qsspy.authservice.application.common.Command;
-import com.qsspy.authservice.application.common.CommandValidationException;
+import com.qsspy.commons.architecture.Command;
+import com.qsspy.commons.architecture.CommandValidationException;
 
 public record LogoutCommand(String token) implements Command {
 

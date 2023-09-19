@@ -8,6 +8,9 @@ spring:
     spring.jpa.database-platform: org.hibernate.dialect.H2Dialect
     hibernate:
       ddl-auto: update # TODO remove in future
+  h2:
+    console:
+      enabled: true
 jwt:
   secret: OGil2Ll4pvD7Pfg/7hbe3r2Q7SYfbpKt2Neulyp4NUxRb5kCDYPJpgbJ/9U2Q9i7
   expiration:

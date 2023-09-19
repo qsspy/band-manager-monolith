@@ -10,6 +10,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.nio.charset.StandardCharsets;
@@ -20,6 +21,7 @@ import java.util.function.Supplier;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 class JwtAuthInterceptor implements AuthInterceptor {
 
     private final TokenGenerationSecretProvider secretProvider;
@@ -29,13 +31,14 @@ class JwtAuthInterceptor implements AuthInterceptor {
     public <T> T withAuthorization(final String authToken, Function<UserContext, T> action, final Supplier<T> userNotAuthenticatedSupplier) {
         final var normalizedToken = normalizeToken(authToken);
 
-        if(!isTokenValid(authToken)) {
+        if(!isTokenValid(normalizedToken)) {
+            log.error("Auth token was not valid!");
             return userNotAuthenticatedSupplier.get();
         }
 
-        final var userId = getClaimFromToken(authToken, claims -> claims.get(CustomJwtClaim.USER_ID, UUID.class));
+        final var userId = getClaimFromToken(normalizedToken, claims -> claims.get(CustomJwtClaim.USER_ID, String.class));
         return userContextRepository
-                .findById(userId)
+                .findById(UUID.fromString(userId))
                 .map(action)
                 .orElseThrow(() -> new IllegalStateException("Could not find user with this id!"));
     }
@@ -52,7 +55,7 @@ class JwtAuthInterceptor implements AuthInterceptor {
 
     private boolean isTokenValid(final String token) {
         final var expiration = getClaimFromToken(token, Claims::getExpiration);
-        return expiration.before(new Date());
+        return expiration.after(new Date());
     }
 
     private String normalizeToken(final String authToken) {

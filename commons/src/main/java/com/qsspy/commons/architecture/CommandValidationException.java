@@ -1,4 +1,4 @@
-package com.qsspy.authservice.application.common;
+package com.qsspy.commons.architecture;
 
 public class CommandValidationException extends RuntimeException {
 

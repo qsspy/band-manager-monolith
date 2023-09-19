@@ -7,21 +7,18 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication(
 		scanBasePackages = {
-				"com.qsspy.authservice.*",
-				"com.qsspy.bands.*"
+				"com.qsspy.authservice",
+				"com.qsspy.bands"
 		}
 )
 @EnableJpaRepositories(
 		basePackages = {
-				"com.qsspy.authservice.*",
-				"com.qsspy.bands.*"
+				"com.qsspy.authservice",
+				"com.qsspy.bands"
 		}
 )
 @EntityScan(
-		basePackages = {
-				"com.qsspy.authservice.*",
-				"com.qsspy.bands.*"
-		}
+		basePackages = {"com.qsspy.jpadatamodel"}
 )
 public class BandManagerApplication {
 

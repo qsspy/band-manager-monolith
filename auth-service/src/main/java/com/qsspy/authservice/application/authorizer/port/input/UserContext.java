@@ -6,5 +6,7 @@ public record UserContext(
         UUID userId,
         String email,
         String firstName,
-        String lastName
+        String lastName,
+        UUID userMemberBandId,
+        UUID userOwnBandId
 ) { }
