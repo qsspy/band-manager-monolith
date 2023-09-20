@@ -41,7 +41,7 @@ class JwtAuthInterceptor implements AuthInterceptor {
     public <T> T withBandAdminAuthorization(final String authToken, final UUID bandId, final Function<UserContext, T> action, final Supplier<T> userNotAuthorizedSupplier) {
         return withRestrictedAuthorization(
                 authToken, action, userNotAuthorizedSupplier,
-                context -> context.userOwnBandId().equals(bandId)
+                context -> bandId.equals(context.userOwnBandId())
         );
     }
 
@@ -49,7 +49,15 @@ class JwtAuthInterceptor implements AuthInterceptor {
     public <T> T withBandMemberAuthorization(final String authToken, final UUID bandId, final Function<UserContext, T> action, final Supplier<T> userNotAuthorizedSupplier) {
         return withRestrictedAuthorization(
                 authToken, action, userNotAuthorizedSupplier,
-                context -> context.userMemberBandId().equals(bandId) || context.userOwnBandId().equals(bandId)
+                context -> bandId.equals(context.userMemberBandId()) || bandId.equals(context.userOwnBandId())
+        );
+    }
+
+    @Override
+    public <T> T withBandMemberPrivilegeRestrictedAuthorization(final String authToken, final UUID bandId, final Predicate<UserContext.Privileges> privilegesRestriction, final Function<UserContext, T> action, final Supplier<T> userNotAuthorizedSupplier) {
+        return withRestrictedAuthorization(
+                authToken, action, userNotAuthorizedSupplier,
+                context -> (bandId.equals(context.userMemberBandId()) || bandId.equals(context.userOwnBandId())) && privilegesRestriction.test(context.bandPrivileges())
         );
     }
 

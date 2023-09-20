@@ -13,7 +13,7 @@ import java.util.UUID;
 interface JpaUserRepository extends JpaRepository<UserEntity, UUID> {
 
     @Query("""
-           SELECT new com.qsspy.authservice.application.authorizer.port.input.UserContext(
+           SELECT new com.qsspy.authservice.infrastructure.port.repository.UserDataDto(
                 u.id,
                 u.email,
                 u.firstName,
@@ -24,7 +24,7 @@ interface JpaUserRepository extends JpaRepository<UserEntity, UUID> {
            FROM USERS u
            WHERE u.id = :id
            """)
-    Optional<UserContext> findUserContextById(final UUID id);
+    Optional<UserDataDto> findUserContextById(final UUID id);
 
     @Query("""
            SELECT u.id

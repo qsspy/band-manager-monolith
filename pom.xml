@@ -20,7 +20,8 @@
 		<module>bands</module>
 		<module>commons</module>
 		<module>jpa-data-model</module>
-	</modules>
+        <module>finances</module>
+    </modules>
 
 	<properties>
 		<maven.compiler.source>17</maven.compiler.source>
@@ -51,6 +52,11 @@
 			<dependency>
 				<groupId>com.qsspy</groupId>
 				<artifactId>jpa-data-model</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.qsspy</groupId>
+				<artifactId>finances</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>

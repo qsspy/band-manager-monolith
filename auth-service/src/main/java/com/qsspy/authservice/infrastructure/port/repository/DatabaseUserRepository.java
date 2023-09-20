@@ -16,10 +16,26 @@ import java.util.UUID;
 class DatabaseUserRepository implements UserContextRepository, UserLoginRepository, UserRegisterRepository {
 
     private final JpaUserRepository jpaUserRepository;
+    private final JpaUserBandPrivilegesRepository bandPrivilegesRepository;
 
     @Override
     public Optional<UserContext> findById(final UUID userId) {
-        return jpaUserRepository.findUserContextById(userId);
+        return jpaUserRepository
+                .findUserContextById(userId)
+                .map(userData -> {
+                    if(userData.userOwnBandId() != null) {
+                        return DtoMapper.toUserContext(userData, UserBandPrivilegesDto.allAllowed());
+                    }
+
+                    if(userData.userMemberBandId() == null) {
+                        return DtoMapper.toUserContext(userData, null);
+                    }
+
+                    return DtoMapper.toUserContext(
+                            userData,
+                            bandPrivilegesRepository.findUserBandPrivileges(userId, userData.userMemberBandId())
+                    );
+                });
     }
 
     @Override
