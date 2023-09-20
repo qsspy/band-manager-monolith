@@ -21,7 +21,9 @@ class DomainToPersistentEntityMapper {
                 .name(bandSnapshot.name())
                 .bandAdmin(userEntity)
                 .defaultBandPrivileges(toDefaultBandPrivilegesEntity(bandSnapshot))
-                .memberPrivileges()
+                .memberPrivileges(
+                        bandSnapshot.bandMembersWithPrivileges().stream().map(DomainToPersistentEntityMapper::toBandMemberPrivilegesEntity).toList()
+                )
                 .build();
 
         userEntity.setOwnedBand(bandEntity);
@@ -47,6 +49,20 @@ class DomainToPersistentEntityMapper {
     }
 
     private static BandMemberPrivilegesEntity toBandMemberPrivilegesEntity(final BandMemberWithPrivileges.Snapshot snapshot) {
+        return BandMemberPrivilegesEntity.builder()
+                .bandId(snapshot.bandId())
+                .memberId(snapshot.memberId())
 
+                .canAccessCalendar(snapshot.canAccessCalendar())
+                .canAddCalendarEntries(snapshot.canAddCalendarEntries())
+                .canEditCalendarEntries(snapshot.canEditCalendarEntries())
+                .canDeleteCalendarEntries(snapshot.canDeleteCalendarEntries())
+
+                .canAccessFinanceHistory(snapshot.canAccessFinanceHistory())
+                .canAddFinanceEntries(snapshot.canAddFinanceEntries())
+
+                .canSeeFinanceIncomeEntries(snapshot.canSeeFinanceIncomeEntries())
+                .canSeeFinanceOutcomeEntries(snapshot.canSeeFinanceOutcomeEntries())
+                .build();
     }
 }

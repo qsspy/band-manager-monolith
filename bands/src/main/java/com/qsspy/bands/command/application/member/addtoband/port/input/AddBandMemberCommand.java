@@ -6,13 +6,13 @@ import com.qsspy.commons.architecture.cqrs.CommandValidationException;
 import java.util.UUID;
 
 public record AddBandMemberCommand(
-        UUID userId,
+        String userEmail,
         UUID bandId
 ) implements Command {
     @Override
     public void validate() {
-        if(userId == null) {
-            throw new CommandValidationException("User Id cannot be null");
+        if(userEmail == null || userEmail.isBlank()) {
+            throw new CommandValidationException("User email cannot be blank");
         }
         if(bandId == null) {
             throw new CommandValidationException("Band Id cannot be null");

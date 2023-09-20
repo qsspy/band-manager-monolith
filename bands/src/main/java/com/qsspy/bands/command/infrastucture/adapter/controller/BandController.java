@@ -4,6 +4,8 @@ import com.qsspy.authservice.application.authorizer.port.input.AuthInterceptor;
 import com.qsspy.bands.command.application.creation.port.input.CreateBandCommand;
 import com.qsspy.bands.command.application.creation.port.input.CreateBandCommandHandler;
 import com.qsspy.bands.command.application.defaultprivileges.port.input.ChangeBandDefaultPrivilegesCommandHandler;
+import com.qsspy.bands.command.application.member.addtoband.port.input.AddBandMemberCommand;
+import com.qsspy.bands.command.application.member.addtoband.port.input.AddBandMemberCommandHandler;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
@@ -21,6 +23,7 @@ class BandController {
     private final AuthInterceptor authInterceptor;
     private final CreateBandCommandHandler createBandCommandHandler;
     private final ChangeBandDefaultPrivilegesCommandHandler changeBandDefaultPrivilegesCommandHandler;
+    private final AddBandMemberCommandHandler addBandMemberCommandHandler;
 
     @PostMapping
     ResponseEntity<Object> createBand(
@@ -64,6 +67,30 @@ class BandController {
                         return ResponseEntity.ok().build();
                     } catch (final Exception exception) {
                         log.error("An error occurred during changing band default privileges", exception);
+                        return ResponseEntity.internalServerError().build();
+                    }
+                },
+                () -> ResponseEntity.internalServerError().build()
+        );
+    }
+
+    @PostMapping("/{bandId}/members")
+    ResponseEntity<Object> addBandMember(
+            @RequestHeader(HttpHeaders.AUTHORIZATION) final String token,
+            @PathVariable("bandId") final UUID bandId,
+            @RequestBody final AddBandMemberRequestBody request
+    ) {
+        return authInterceptor.withBandAdminAuthorization(
+                token,
+                bandId,
+                context -> {
+                    final var command = new AddBandMemberCommand(request.userEmail(), bandId);
+
+                    try {
+                        addBandMemberCommandHandler.handle(command);
+                        return ResponseEntity.ok().build();
+                    } catch (final Exception exception) {
+                        log.error("An error occurred while adding band member to band", exception);
                         return ResponseEntity.internalServerError().build();
                     }
                 },

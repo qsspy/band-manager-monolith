@@ -109,13 +109,13 @@ public class Band implements AggregateRoot {
         }
 
         if(bandMembersWithPrivileges.stream().anyMatch(member -> member.getMemberId().value().equals(userId))) {
-            throw new DomainException("Member is already asigned to this band!");
+            throw new DomainException("Member is already assigned to this band!");
         }
 
         bandMembersWithPrivileges.add(
                 BandMemberWithPrivileges.builder()
                         .bandId(new BandId(id.value()))
-                        .memberId(new MemberId(id.value()))
+                        .memberId(new MemberId(userId))
 
                         .canAccessCalendar(defaultBandPrivileges.getCanAccessCalendar())
                         .canAddCalendarEntries(defaultBandPrivileges.getCanAddCalendarEntries())

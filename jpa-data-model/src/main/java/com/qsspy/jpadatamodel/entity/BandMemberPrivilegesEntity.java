@@ -49,10 +49,10 @@ public class BandMemberPrivilegesEntity {
     private boolean canSeeFinanceOutcomeEntries;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @PrimaryKeyJoinColumn(name = "BAND_ID", referencedColumnName = "ID")
+    @JoinColumn(name = "BAND_ID", referencedColumnName = "ID", insertable = false, updatable = false)
     private BandEntity band;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @PrimaryKeyJoinColumn(name = "MEMBER_ID", referencedColumnName = "ID")
+    @JoinColumn(name = "MEMBER_ID", referencedColumnName = "ID", insertable = false, updatable = false)
     private UserEntity member;
 }

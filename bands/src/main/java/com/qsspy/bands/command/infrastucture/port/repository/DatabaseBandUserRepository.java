@@ -2,6 +2,8 @@ package com.qsspy.bands.command.infrastucture.port.repository;
 
 import com.qsspy.bands.command.application.common.port.output.BandSaveRepository;
 import com.qsspy.bands.command.application.common.port.output.GetBandByIdRepository;
+import com.qsspy.bands.command.application.member.addtoband.port.output.BandUserRepository;
+import com.qsspy.bands.command.application.member.addtoband.port.output.dto.UserMembership;
 import com.qsspy.bands.command.domain.band.Band;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -11,7 +13,7 @@ import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor
-class DatabaseBandRepository implements BandSaveRepository, GetBandByIdRepository {
+class DatabaseBandUserRepository implements BandSaveRepository, GetBandByIdRepository, BandUserRepository {
 
     private final JpaBandRepository bandRepository;
     private final JpaBandUserRepository userRepository;
@@ -27,6 +29,11 @@ class DatabaseBandRepository implements BandSaveRepository, GetBandByIdRepositor
                         bandAdmin -> {
                             final var persistentBand = DomainToPersistentEntityMapper.toEntity(bandSnapshot, bandAdmin);
                             bandRepository.save(persistentBand);
+
+                            userRepository.removeBandMembershipForUsersInCompany(bandSnapshot.id());
+                            persistentBand
+                                    .getMemberPrivileges()
+                                    .forEach(member -> userRepository.updateMemberBandId(member.getMemberId(), member.getBandId()));
                         },
                         () -> {
                             throw new IllegalStateException("Could not find admin of created band");
@@ -39,5 +46,10 @@ class DatabaseBandRepository implements BandSaveRepository, GetBandByIdRepositor
         return bandRepository
                 .findById(bandId)
                 .map(PersistentEntityToDomainMapper::fromEntity);
+    }
+
+    @Override
+    public Optional<UserMembership> getUserMembershipInformation(final String userEmail) {
+        return userRepository.getUserMembershipByEmail(userEmail);
     }
 }

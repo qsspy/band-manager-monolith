@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.util.Collections;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Slf4j
@@ -53,7 +54,7 @@ public final class BandFactory {
                 .bandMembersWithPrivileges(
                         snapshot.bandMembersWithPrivileges().stream()
                                 .map(BandFactory::toBandMemberWithPrivilegesEntity)
-                                .toList()
+                                .collect(Collectors.toList())
                 )
                 .build();
 
