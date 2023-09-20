@@ -1,7 +1,9 @@
 package com.qsspy.bands.command.infrastucture.port.repository;
 
 import com.qsspy.bands.command.domain.band.Band;
+import com.qsspy.bands.command.domain.band.BandMemberWithPrivileges;
 import com.qsspy.jpadatamodel.entity.BandEntity;
+import com.qsspy.jpadatamodel.entity.BandMemberPrivilegesEntity;
 import com.qsspy.jpadatamodel.entity.DefaultBandPrivilegesEntity;
 import com.qsspy.jpadatamodel.entity.UserEntity;
 import lombok.AccessLevel;
@@ -13,15 +15,21 @@ import java.util.UUID;
 class DomainToPersistentEntityMapper {
 
     static BandEntity toEntity(final Band.Snapshot bandSnapshot, final UserEntity userEntity) {
-        return BandEntity.builder()
+
+        final var bandEntity =  BandEntity.builder()
                 .id(bandSnapshot.id())
                 .name(bandSnapshot.name())
                 .bandAdmin(userEntity)
                 .defaultBandPrivileges(toDefaultBandPrivilegesEntity(bandSnapshot))
+                .memberPrivileges()
                 .build();
+
+        userEntity.setOwnedBand(bandEntity);
+
+        return bandEntity;
     }
 
-    static DefaultBandPrivilegesEntity toDefaultBandPrivilegesEntity(final Band.Snapshot bandSnapshot) {
+    private static DefaultBandPrivilegesEntity toDefaultBandPrivilegesEntity(final Band.Snapshot bandSnapshot) {
         return DefaultBandPrivilegesEntity.builder()
                 .id(bandSnapshot.defaultPrivileges().id())
                 .canAccessCalendar(bandSnapshot.defaultPrivileges().canAccessCalendar())
@@ -36,5 +44,9 @@ class DomainToPersistentEntityMapper {
                 .canSeeCalendarEntryPaymentByDefault(bandSnapshot.defaultPrivileges().canSeeCalendarEntryPaymentByDefault())
                 .canSeeCalendarEntryDetailsByDefault(bandSnapshot.defaultPrivileges().canSeeCalendarEntryDetailsByDefault())
                 .build();
+    }
+
+    private static BandMemberPrivilegesEntity toBandMemberPrivilegesEntity(final BandMemberWithPrivileges.Snapshot snapshot) {
+
     }
 }

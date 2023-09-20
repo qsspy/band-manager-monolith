@@ -5,6 +5,7 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.Collections;
 import java.util.UUID;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
@@ -18,6 +19,7 @@ public final class BandFactory {
                 .name(new BandName(creationData.bandName()))
                 .adminId(new AdminId(creationData.creatorId()))
                 .defaultBandPrivileges(DefaultBandPrivileges.newBaseDefaultPrivileges(new EntityId(id)))
+                .bandMembersWithPrivileges(Collections.emptyList())
                 .build();
 
         band.validateCurrentState();
@@ -48,10 +50,30 @@ public final class BandFactory {
                                 .canSeeCalendarEntryDetailsByDefault(new Privilege(snapshot.defaultPrivileges().canSeeCalendarEntryDetailsByDefault()))
                                 .build()
                 )
+                .bandMembersWithPrivileges(
+                        snapshot.bandMembersWithPrivileges().stream()
+                                .map(BandFactory::toBandMemberWithPrivilegesEntity)
+                                .toList()
+                )
                 .build();
 
         band.validateCurrentState();
 
         return band;
+    }
+
+    private static BandMemberWithPrivileges toBandMemberWithPrivilegesEntity(final BandMemberWithPrivileges.Snapshot snapshot) {
+        return BandMemberWithPrivileges.builder()
+                .bandId(new BandId(snapshot.bandId()))
+                .memberId(new MemberId(snapshot.memberId()))
+                .canAccessCalendar(Privilege.from(snapshot.canAccessCalendar()))
+                .canAddCalendarEntries(Privilege.from(snapshot.canAddCalendarEntries()))
+                .canEditCalendarEntries(Privilege.from(snapshot.canEditCalendarEntries()))
+                .canDeleteCalendarEntries(Privilege.from(snapshot.canDeleteCalendarEntries()))
+                .canAccessFinanceHistory(Privilege.from(snapshot.canAccessFinanceHistory()))
+                .canAddFinanceEntries(Privilege.from(snapshot.canAddFinanceEntries()))
+                .canSeeFinanceIncomeEntries(Privilege.from(snapshot.canSeeFinanceIncomeEntries()))
+                .canSeeFinanceOutcomeEntries(Privilege.from(snapshot.canSeeFinanceOutcomeEntries()))
+                .build();
     }
 }

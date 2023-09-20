@@ -3,7 +3,7 @@ package com.qsspy.bands.command.application.defaultprivileges;
 import com.qsspy.bands.command.application.common.port.output.BandSaveRepository;
 import com.qsspy.bands.command.application.defaultprivileges.port.input.ChangeBandDefaultPrivilegesCommand;
 import com.qsspy.bands.command.application.defaultprivileges.port.input.ChangeBandDefaultPrivilegesCommandHandler;
-import com.qsspy.bands.command.application.defaultprivileges.port.output.GetBandByIdRepository;
+import com.qsspy.bands.command.application.common.port.output.GetBandByIdRepository;
 import com.qsspy.bands.command.domain.band.Band;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;

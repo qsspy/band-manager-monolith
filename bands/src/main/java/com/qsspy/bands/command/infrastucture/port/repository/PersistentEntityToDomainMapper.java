@@ -2,8 +2,10 @@ package com.qsspy.bands.command.infrastucture.port.repository;
 
 import com.qsspy.bands.command.domain.band.Band;
 import com.qsspy.bands.command.domain.band.BandFactory;
+import com.qsspy.bands.command.domain.band.BandMemberWithPrivileges;
 import com.qsspy.bands.command.domain.band.DefaultBandPrivileges;
 import com.qsspy.jpadatamodel.entity.BandEntity;
+import com.qsspy.jpadatamodel.entity.BandMemberPrivilegesEntity;
 import com.qsspy.jpadatamodel.entity.DefaultBandPrivilegesEntity;
 import com.qsspy.jpadatamodel.entity.UserEntity;
 import lombok.AccessLevel;
@@ -38,36 +40,28 @@ class PersistentEntityToDomainMapper {
                                         .canSeeCalendarEntryDetailsByDefault(entity.getDefaultBandPrivileges().isCanSeeCalendarEntryDetailsByDefault())
                                         .build()
                         )
+                        .bandMembersWithPrivileges(
+                                entity.getMemberPrivileges().stream().map(PersistentEntityToDomainMapper::toSnapshot).toList()
+                        )
                         .build()
         );
     }
 
-    static BandEntity toEntity(final Band.Snapshot bandSnapshot, final UserEntity userEntity) {
-        return BandEntity.builder()
-                .id(bandSnapshot.id())
-                .name(bandSnapshot.name())
-                .bandAdmin(userEntity)
-                .defaultBandPrivileges(toDefaultBandPrivilegesEntity(bandSnapshot))
-                .build();
-    }
+    private static BandMemberWithPrivileges.Snapshot toSnapshot(final BandMemberPrivilegesEntity entity) {
+        return BandMemberWithPrivileges.Snapshot.builder()
+                .bandId(entity.getBandId())
+                .memberId(entity.getMemberId())
 
-    static DefaultBandPrivilegesEntity toDefaultBandPrivilegesEntity(final Band.Snapshot bandSnapshot) {
-        return DefaultBandPrivilegesEntity.builder()
-                .id(bandSnapshot.defaultPrivileges().id())
-                .canAccessCalendar(bandSnapshot.defaultPrivileges().canAccessCalendar())
-                .canAddCalendarEntries(bandSnapshot.defaultPrivileges().canAddCalendarEntries())
-                .canEditCalendarEntries(bandSnapshot.defaultPrivileges().canEditCalendarEntries())
-                .canDeleteCalendarEntries(bandSnapshot.defaultPrivileges().canDeleteCalendarEntries())
+                .canAccessCalendar(entity.isCanAccessCalendar())
+                .canAddCalendarEntries(entity.isCanAddCalendarEntries())
+                .canEditCalendarEntries(entity.isCanEditCalendarEntries())
+                .canDeleteCalendarEntries(entity.isCanDeleteCalendarEntries())
 
-                .canAccessFinanceHistory(bandSnapshot.defaultPrivileges().canAccessFinanceHistory())
-                .canAddFinanceEntries(bandSnapshot.defaultPrivileges().canAddFinanceEntries())
+                .canAccessFinanceHistory(entity.isCanAccessFinanceHistory())
+                .canAddFinanceEntries(entity.isCanAddFinanceEntries())
 
-                .canSeeFinanceIncomeEntries(bandSnapshot.defaultPrivileges().canSeeFinanceIncomeEntries())
-                .canSeeFinanceOutcomeEntries(bandSnapshot.defaultPrivileges().canSeeFinanceOutcomeEntries())
-
-                .canSeeCalendarEntryByDefault(bandSnapshot.defaultPrivileges().canSeeCalendarEntryByDefault())
-                .canSeeCalendarEntryPaymentByDefault(bandSnapshot.defaultPrivileges().canSeeCalendarEntryPaymentByDefault())
-                .canSeeCalendarEntryDetailsByDefault(bandSnapshot.defaultPrivileges().canSeeCalendarEntryDetailsByDefault())
+                .canSeeFinanceIncomeEntries(entity.isCanSeeFinanceIncomeEntries())
+                .canSeeFinanceOutcomeEntries(entity.isCanSeeFinanceIncomeEntries())
                 .build();
     }
 }

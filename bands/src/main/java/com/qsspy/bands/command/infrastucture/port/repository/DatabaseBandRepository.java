@@ -1,7 +1,7 @@
 package com.qsspy.bands.command.infrastucture.port.repository;
 
 import com.qsspy.bands.command.application.common.port.output.BandSaveRepository;
-import com.qsspy.bands.command.application.defaultprivileges.port.output.GetBandByIdRepository;
+import com.qsspy.bands.command.application.common.port.output.GetBandByIdRepository;
 import com.qsspy.bands.command.domain.band.Band;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -26,7 +26,6 @@ class DatabaseBandRepository implements BandSaveRepository, GetBandByIdRepositor
                 .ifPresentOrElse(
                         bandAdmin -> {
                             final var persistentBand = DomainToPersistentEntityMapper.toEntity(bandSnapshot, bandAdmin);
-                            bandAdmin.setOwnedBand(persistentBand);
                             bandRepository.save(persistentBand);
                         },
                         () -> {

@@ -1,4 +1,4 @@
-package com.qsspy.bands.command.application.defaultprivileges.port.output;
+package com.qsspy.bands.command.application.common.port.output;
 
 import com.qsspy.bands.command.domain.band.Band;
 

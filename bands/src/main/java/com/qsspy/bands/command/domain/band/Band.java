@@ -3,10 +3,12 @@ package com.qsspy.bands.command.domain.band;
 import com.qsspy.bands.command.domain.band.dto.DefaultPrivilegesChangeSpecification;
 import com.qsspy.commons.architecture.ddd.AggregateRoot;
 import com.qsspy.commons.architecture.cqrs.DomainValidationException;
+import com.qsspy.commons.architecture.ddd.DomainException;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 
+import java.util.List;
 import java.util.UUID;
 
 @Builder(access = AccessLevel.PACKAGE)
@@ -17,7 +19,7 @@ public class Band implements AggregateRoot {
     private final BandName name;
     private final AdminId adminId;
     private final DefaultBandPrivileges defaultBandPrivileges;
-    private final List<>
+    private final List<BandMemberWithPrivileges> bandMembersWithPrivileges;
 
     public Band changeDefaultPrivileges(final DefaultPrivilegesChangeSpecification changeSpecification) {
         if(changeSpecification.canAccessCalendar() != null) {
@@ -101,6 +103,36 @@ public class Band implements AggregateRoot {
         return this;
     }
 
+    public Band addMember(final UUID userId) {
+        if(userId.equals(adminId.value())) {
+            throw new DomainException("Cannot add admin user to the band");
+        }
+
+        if(bandMembersWithPrivileges.stream().anyMatch(member -> member.getMemberId().value().equals(userId))) {
+            throw new DomainException("Member is already asigned to this band!");
+        }
+
+        bandMembersWithPrivileges.add(
+                BandMemberWithPrivileges.builder()
+                        .bandId(new BandId(id.value()))
+                        .memberId(new MemberId(id.value()))
+
+                        .canAccessCalendar(defaultBandPrivileges.getCanAccessCalendar())
+                        .canAddCalendarEntries(defaultBandPrivileges.getCanAddCalendarEntries())
+                        .canEditCalendarEntries(defaultBandPrivileges.getCanEditCalendarEntries())
+                        .canDeleteCalendarEntries(defaultBandPrivileges.getCanDeleteCalendarEntries())
+
+                        .canAccessFinanceHistory(defaultBandPrivileges.getCanAccessFinanceHistory())
+                        .canAddFinanceEntries(defaultBandPrivileges.getCanAddFinanceEntries())
+
+                        .canSeeFinanceIncomeEntries(defaultBandPrivileges.getCanSeeFinanceIncomeEntries())
+                        .canSeeFinanceOutcomeEntries(defaultBandPrivileges.getCanSeeFinanceOutcomeEntries())
+                        .build()
+        );
+
+        return this;
+    }
+
     void validateCurrentState() {
         if(id == null) {
             throw new DomainValidationException("Id cannot be null");
@@ -113,6 +145,9 @@ public class Band implements AggregateRoot {
         }
         if(defaultBandPrivileges == null) {
             throw new DomainValidationException("Default privileges cannot be null");
+        }
+        if(bandMembersWithPrivileges == null) {
+            throw new DomainValidationException("Band members with privileges cannot be null");
         }
 
         id.validate();
@@ -127,6 +162,9 @@ public class Band implements AggregateRoot {
                 .name(name.value())
                 .adminId(adminId.value())
                 .defaultPrivileges(defaultBandPrivileges.takeSnapshot())
+                .bandMembersWithPrivileges(
+                        bandMembersWithPrivileges.stream().map(BandMemberWithPrivileges::takeSnapshot).toList()
+                )
                 .build();
     }
     @Builder
@@ -134,6 +172,7 @@ public class Band implements AggregateRoot {
             UUID id,
             String name,
             UUID adminId,
-            DefaultBandPrivileges.Snapshot defaultPrivileges
+            DefaultBandPrivileges.Snapshot defaultPrivileges,
+            List<BandMemberWithPrivileges.Snapshot> bandMembersWithPrivileges
     ) { }
 }
