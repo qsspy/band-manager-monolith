@@ -1,6 +1,6 @@
-package com.qsspy.commons.architecture;
+package com.qsspy.commons.architecture.ddd;
 
-public interface Command {
+public interface Entity {
 
     /**
      * Self validation method

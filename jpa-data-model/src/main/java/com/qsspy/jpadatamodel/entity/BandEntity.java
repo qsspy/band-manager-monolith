@@ -22,9 +22,12 @@ public class BandEntity {
     @Column(name = "BAND_NAME")
     private String name;
 
-    @OneToOne(mappedBy = "ownedBand", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "ownedBand", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private UserEntity bandAdmin;
 
-    @OneToMany(mappedBy= "memberBand", fetch = FetchType.LAZY)
-    private List<UserEntity> members;
+    @OneToOne(mappedBy = "band", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private DefaultBandPrivilegesEntity defaultBandPrivileges;
+
+    @OneToMany(mappedBy = "band", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<BandMemberPrivilegesEntity> memberPrivileges;
 }

@@ -1,7 +1,7 @@
 package com.qsspy.bands.command.application.creation.port.input;
 
-import com.qsspy.commons.architecture.Command;
-import com.qsspy.commons.architecture.CommandValidationException;
+import com.qsspy.commons.architecture.cqrs.Command;
+import com.qsspy.commons.architecture.cqrs.CommandValidationException;
 import lombok.Builder;
 import org.springframework.lang.Nullable;
 
@@ -10,10 +10,6 @@ import java.util.UUID;
 @Builder
 public record CreateBandCommand(
         UUID creatorId,
-        @Nullable
-        UUID userMemberBandId,
-        @Nullable
-        UUID userOwnBandId,
         String bandName
 ) implements Command {
     @Override

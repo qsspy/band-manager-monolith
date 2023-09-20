@@ -1,4 +1,4 @@
-package com.qsspy.commons.architecture;
+package com.qsspy.commons.architecture.ddd;
 
 public interface ValueObject {
 

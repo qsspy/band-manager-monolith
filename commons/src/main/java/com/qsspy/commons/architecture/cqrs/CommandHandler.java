@@ -1,4 +1,4 @@
-package com.qsspy.commons.architecture;
+package com.qsspy.commons.architecture.cqrs;
 
 public interface CommandHandler<T extends Command> {
 

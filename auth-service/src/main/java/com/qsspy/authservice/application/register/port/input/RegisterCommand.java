@@ -1,7 +1,7 @@
 package com.qsspy.authservice.application.register.port.input;
 
-import com.qsspy.commons.architecture.Command;
-import com.qsspy.commons.architecture.CommandValidationException;
+import com.qsspy.commons.architecture.cqrs.Command;
+import com.qsspy.commons.architecture.cqrs.CommandValidationException;
 import lombok.Builder;
 
 @Builder

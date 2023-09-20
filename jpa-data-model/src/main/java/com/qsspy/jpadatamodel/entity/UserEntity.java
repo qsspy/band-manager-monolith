@@ -28,11 +28,11 @@ public class UserEntity {
     @Column(name = "PASSWORD")
     private String password;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "OWN_BAND_ID", referencedColumnName = "ID")
     private BandEntity ownedBand;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="MEMBER_BAND_ID", referencedColumnName = "ID")
     private BandEntity memberBand;
 }

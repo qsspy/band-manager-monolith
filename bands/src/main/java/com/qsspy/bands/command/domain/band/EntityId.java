@@ -3,11 +3,13 @@ package com.qsspy.bands.command.domain.band;
 import com.qsspy.commons.architecture.cqrs.DomainValidationException;
 import com.qsspy.commons.architecture.ddd.ValueObject;
 
-record BandName(String value) implements ValueObject {
+import java.util.UUID;
+
+record EntityId(UUID value) implements ValueObject {
     @Override
     public void validate() {
-        if(value == null || value.isBlank()) {
-            throw new DomainValidationException("Name cannot be blank!");
+        if(value == null) {
+            throw new DomainValidationException("Id cannot be null!");
         }
     }
 }

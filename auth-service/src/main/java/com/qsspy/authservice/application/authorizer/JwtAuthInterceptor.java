@@ -17,6 +17,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.UUID;
 import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.function.Supplier;
 
 @Service
@@ -27,20 +28,54 @@ class JwtAuthInterceptor implements AuthInterceptor {
     private final TokenGenerationSecretProvider secretProvider;
     private final UserContextRepository userContextRepository;
 
+
     @Override
-    public <T> T withAuthorization(final String authToken, Function<UserContext, T> action, final Supplier<T> userNotAuthenticatedSupplier) {
+    public <T> T withUserWithoutBandAuthorization(final String authToken, final Function<UserContext, T> action, final Supplier<T> userNotAuthorizedSupplier) {
+        return withRestrictedAuthorization(
+                authToken, action, userNotAuthorizedSupplier,
+                context -> context.userMemberBandId() == null && context.userOwnBandId() == null
+        );
+    }
+
+    @Override
+    public <T> T withBandAdminAuthorization(final String authToken, final UUID bandId, final Function<UserContext, T> action, final Supplier<T> userNotAuthorizedSupplier) {
+        return withRestrictedAuthorization(
+                authToken, action, userNotAuthorizedSupplier,
+                context -> context.userOwnBandId().equals(bandId)
+        );
+    }
+
+    @Override
+    public <T> T withBandMemberAuthorization(final String authToken, final UUID bandId, final Function<UserContext, T> action, final Supplier<T> userNotAuthorizedSupplier) {
+        return withRestrictedAuthorization(
+                authToken, action, userNotAuthorizedSupplier,
+                context -> context.userMemberBandId().equals(bandId) || context.userOwnBandId().equals(bandId)
+        );
+    }
+
+    private <T> T withRestrictedAuthorization(
+            final String authToken,
+            final Function<UserContext, T> action,
+            final Supplier<T> userNotAuthorizedSupplier,
+            final Predicate<UserContext> restrictionPredicate
+    ) {
         final var normalizedToken = normalizeToken(authToken);
 
         if(!isTokenValid(normalizedToken)) {
             log.error("Auth token was not valid!");
-            return userNotAuthenticatedSupplier.get();
+            return userNotAuthorizedSupplier.get();
         }
 
         final var userId = getClaimFromToken(normalizedToken, claims -> claims.get(CustomJwtClaim.USER_ID, String.class));
         return userContextRepository
                 .findById(UUID.fromString(userId))
+                .map(context -> {
+                    log.info("Trying to authenticate user with context: {}", context);
+                    return context;
+                })
+                .filter(restrictionPredicate)
                 .map(action)
-                .orElseThrow(() -> new IllegalStateException("Could not find user with this id!"));
+                .orElseThrow(() -> new IllegalStateException("Could not find user with this id or required authentication!"));
     }
 
     private <T> T getClaimFromToken(final String token, final Function<Claims, T> claimsResolver) {
