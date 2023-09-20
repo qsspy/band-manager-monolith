@@ -1,6 +1,6 @@
 package com.qsspy.bands.command.infrastucture.port.repository;
 
-import com.qsspy.bands.command.application.member.addtoband.port.output.dto.UserMembership;
+import com.qsspy.bands.command.application.member.addition.port.output.dto.UserMembership;
 import com.qsspy.jpadatamodel.entity.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -43,7 +43,7 @@ interface JpaBandUserRepository extends JpaRepository<UserEntity, UUID> {
     boolean existsByOwnedBandIdOrMemberBandId(final UUID userId);
 
     @Query("""
-           SELECT new com.qsspy.bands.command.application.member.addtoband.port.output.dto.UserMembership(
+           SELECT new com.qsspy.bands.command.application.member.addition.port.output.dto.UserMembership(
                 u.id,
                 u.ownedBand.id,
                 u.memberBand.id

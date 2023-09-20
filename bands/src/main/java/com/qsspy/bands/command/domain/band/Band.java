@@ -133,6 +133,20 @@ public class Band implements AggregateRoot {
         return this;
     }
 
+    public Band removeMember(final UUID userId) {
+        if(userId.equals(adminId.value())) {
+            throw new DomainException("Cannot remove admin user from the band");
+        }
+
+        if(bandMembersWithPrivileges.stream().noneMatch(member -> member.getMemberId().value().equals(userId))) {
+            throw new DomainException("No such member in this company!");
+        }
+
+        bandMembersWithPrivileges.removeIf(member -> member.getMemberId().value().equals(userId));
+
+        return this;
+    }
+
     void validateCurrentState() {
         if(id == null) {
             throw new DomainValidationException("Id cannot be null");

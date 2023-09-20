@@ -1,4 +1,4 @@
-package com.qsspy.bands.command.application.member.addtoband.port.output.dto;
+package com.qsspy.bands.command.application.member.addition.port.output.dto;
 
 import org.springframework.lang.Nullable;
 

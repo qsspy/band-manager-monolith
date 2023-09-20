@@ -2,8 +2,8 @@ package com.qsspy.bands.command.infrastucture.port.repository;
 
 import com.qsspy.bands.command.application.common.port.output.BandSaveRepository;
 import com.qsspy.bands.command.application.common.port.output.GetBandByIdRepository;
-import com.qsspy.bands.command.application.member.addtoband.port.output.BandUserRepository;
-import com.qsspy.bands.command.application.member.addtoband.port.output.dto.UserMembership;
+import com.qsspy.bands.command.application.member.addition.port.output.BandUserRepository;
+import com.qsspy.bands.command.application.member.addition.port.output.dto.UserMembership;
 import com.qsspy.bands.command.domain.band.Band;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -17,6 +17,7 @@ class DatabaseBandUserRepository implements BandSaveRepository, GetBandByIdRepos
 
     private final JpaBandRepository bandRepository;
     private final JpaBandUserRepository userRepository;
+    private final JpaBandUserPrivilegesRepository bandUserPrivilegesRepository;
 
     @Override
     public void save(final Band band) {
@@ -31,6 +32,7 @@ class DatabaseBandUserRepository implements BandSaveRepository, GetBandByIdRepos
                             bandRepository.save(persistentBand);
 
                             userRepository.removeBandMembershipForUsersInCompany(bandSnapshot.id());
+                            bandUserPrivilegesRepository.deleteByBandId(bandSnapshot.id());
                             persistentBand
                                     .getMemberPrivileges()
                                     .forEach(member -> userRepository.updateMemberBandId(member.getMemberId(), member.getBandId()));

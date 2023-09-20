@@ -1,11 +1,11 @@
-package com.qsspy.bands.command.application.member.addtoband;
+package com.qsspy.bands.command.application.member.addition;
 
 import com.qsspy.bands.command.application.common.port.output.BandSaveRepository;
 import com.qsspy.bands.command.application.common.port.output.GetBandByIdRepository;
-import com.qsspy.bands.command.application.member.addtoband.port.input.AddBandMemberCommand;
-import com.qsspy.bands.command.application.member.addtoband.port.input.AddBandMemberCommandHandler;
-import com.qsspy.bands.command.application.member.addtoband.port.output.BandUserRepository;
-import com.qsspy.bands.command.application.member.addtoband.port.output.dto.UserMembership;
+import com.qsspy.bands.command.application.member.addition.port.input.AddBandMemberCommand;
+import com.qsspy.bands.command.application.member.addition.port.input.AddBandMemberCommandHandler;
+import com.qsspy.bands.command.application.member.addition.port.output.BandUserRepository;
+import com.qsspy.bands.command.application.member.addition.port.output.dto.UserMembership;
 import com.qsspy.bands.command.domain.band.Band;
 import com.qsspy.commons.architecture.cqrs.CommandValidationException;
 import jakarta.transaction.Transactional;

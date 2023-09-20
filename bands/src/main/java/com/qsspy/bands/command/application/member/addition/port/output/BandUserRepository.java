@@ -1,6 +1,6 @@
-package com.qsspy.bands.command.application.member.addtoband.port.output;
+package com.qsspy.bands.command.application.member.addition.port.output;
 
-import com.qsspy.bands.command.application.member.addtoband.port.output.dto.UserMembership;
+import com.qsspy.bands.command.application.member.addition.port.output.dto.UserMembership;
 
 import java.util.Optional;
 

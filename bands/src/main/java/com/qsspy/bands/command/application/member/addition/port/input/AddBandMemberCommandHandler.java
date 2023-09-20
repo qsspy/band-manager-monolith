@@ -1,4 +1,4 @@
-package com.qsspy.bands.command.application.member.addtoband.port.input;
+package com.qsspy.bands.command.application.member.addition.port.input;
 
 import com.qsspy.commons.architecture.cqrs.CommandHandler;
 

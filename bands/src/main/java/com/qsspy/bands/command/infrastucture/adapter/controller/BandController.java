@@ -4,8 +4,10 @@ import com.qsspy.authservice.application.authorizer.port.input.AuthInterceptor;
 import com.qsspy.bands.command.application.creation.port.input.CreateBandCommand;
 import com.qsspy.bands.command.application.creation.port.input.CreateBandCommandHandler;
 import com.qsspy.bands.command.application.defaultprivileges.port.input.ChangeBandDefaultPrivilegesCommandHandler;
-import com.qsspy.bands.command.application.member.addtoband.port.input.AddBandMemberCommand;
-import com.qsspy.bands.command.application.member.addtoband.port.input.AddBandMemberCommandHandler;
+import com.qsspy.bands.command.application.member.addition.port.input.AddBandMemberCommand;
+import com.qsspy.bands.command.application.member.addition.port.input.AddBandMemberCommandHandler;
+import com.qsspy.bands.command.application.member.removal.port.input.RemoveBandMemberCommand;
+import com.qsspy.bands.command.application.member.removal.port.input.RemoveBandMemberCommandHandler;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
@@ -24,6 +26,7 @@ class BandController {
     private final CreateBandCommandHandler createBandCommandHandler;
     private final ChangeBandDefaultPrivilegesCommandHandler changeBandDefaultPrivilegesCommandHandler;
     private final AddBandMemberCommandHandler addBandMemberCommandHandler;
+    private final RemoveBandMemberCommandHandler removeBandMemberCommandHandler;
 
     @PostMapping
     ResponseEntity<Object> createBand(
@@ -91,6 +94,30 @@ class BandController {
                         return ResponseEntity.ok().build();
                     } catch (final Exception exception) {
                         log.error("An error occurred while adding band member to band", exception);
+                        return ResponseEntity.internalServerError().build();
+                    }
+                },
+                () -> ResponseEntity.internalServerError().build()
+        );
+    }
+
+    @DeleteMapping("/{bandId}/members")
+    ResponseEntity<Object> removeMemberFromBand(
+            @RequestHeader(HttpHeaders.AUTHORIZATION) final String token,
+            @PathVariable("bandId") final UUID bandId,
+            @RequestBody final RemoveBandMemberRequestBody request
+    ) {
+        return authInterceptor.withBandAdminAuthorization(
+                token,
+                bandId,
+                context -> {
+                    final var command = new RemoveBandMemberCommand(bandId, request.userId());
+
+                    try {
+                        removeBandMemberCommandHandler.handle(command);
+                        return ResponseEntity.ok().build();
+                    } catch (final Exception exception) {
+                        log.error("An error occurred while removing band member from band", exception);
                         return ResponseEntity.internalServerError().build();
                     }
                 },
