@@ -2,6 +2,7 @@ package com.qsspy.bands.query.infrastructure.adapter.contoller;
 
 import com.qsspy.bands.query.application.defaultprivileges.port.input.GetBandDefaultPrivilegesQueryResult;
 import com.qsspy.bands.query.application.members.port.input.GetBandMembersQueryResult;
+import com.qsspy.bands.query.application.userprivileges.port.input.GetUserBandPrivilegesQueryResult;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
@@ -39,6 +40,21 @@ final class QueryResultToResponseMapper {
                 .canSeeCalendarEntryByDefault(result.canSeeCalendarEntryByDefault())
                 .canSeeCalendarEntryPaymentByDefault(result.canSeeCalendarEntryPaymentByDefault())
                 .canSeeCalendarEntryDetailsByDefault(result.canSeeCalendarEntryDetailsByDefault())
+                .build();
+    }
+
+    static GetUserBandPrivilegesQueryResponse toResponse(final GetUserBandPrivilegesQueryResult result) {
+        return GetUserBandPrivilegesQueryResponse.builder()
+                .canAccessCalendar(result.canAccessCalendar())
+                .canAddCalendarEntries(result.canAddCalendarEntries())
+                .canEditCalendarEntries(result.canEditCalendarEntries())
+                .canDeleteCalendarEntries(result.canDeleteCalendarEntries())
+
+                .canAccessFinanceHistory(result.canAccessFinanceHistory())
+                .canAddFinanceEntries(result.canAddFinanceEntries())
+
+                .canSeeFinanceIncomeEntries(result.canSeeFinanceIncomeEntries())
+                .canSeeFinanceOutcomeEntries(result.canSeeFinanceOutcomeEntries())
                 .build();
     }
 }

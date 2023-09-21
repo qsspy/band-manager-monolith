@@ -5,6 +5,8 @@ import com.qsspy.bands.query.application.defaultprivileges.port.input.GetBandDef
 import com.qsspy.bands.query.application.defaultprivileges.port.input.GetBandDefaultPrivilegesQueryHandler;
 import com.qsspy.bands.query.application.members.port.input.GetBandMembersQuery;
 import com.qsspy.bands.query.application.members.port.input.GetBandMembersQueryHandler;
+import com.qsspy.bands.query.application.userprivileges.port.input.GetUserBandPrivilegesQuery;
+import com.qsspy.bands.query.application.userprivileges.port.input.GetUserBandPrivilegesQueryHandler;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
@@ -22,6 +24,7 @@ class BandQueryController {
     private final AuthInterceptor authInterceptor;
     private final GetBandMembersQueryHandler getBandMembersQueryHandler;
     private final GetBandDefaultPrivilegesQueryHandler getBandDefaultPrivilegesQueryHandler;
+    private final GetUserBandPrivilegesQueryHandler getUserBandPrivilegesQueryHandler;
 
     @GetMapping("/members")
     ResponseEntity<GetBandMembersQueryResponse> getBandMembers(
@@ -65,6 +68,32 @@ class BandQueryController {
                         return ResponseEntity.ok(response);
                     } catch (final Exception exception) {
                         log.error("An error occurred during getting band default privileges", exception);
+                        return ResponseEntity.internalServerError().build();
+                    }
+
+                },
+                () -> ResponseEntity.internalServerError().build()
+        );
+    }
+
+    @GetMapping("/members/{memberId}/privileges")
+    ResponseEntity<GetUserBandPrivilegesQueryResponse> getBandDefaultPrivileges(
+            @RequestHeader(HttpHeaders.AUTHORIZATION) final String token,
+            @PathVariable("bandId") final UUID bandId,
+            @PathVariable("memberId") final UUID memberId
+    ) {
+        return authInterceptor.withBandAdminAuthorization(
+                token,
+                bandId,
+                context -> {
+                    final var query = new GetUserBandPrivilegesQuery(bandId, memberId);
+
+                    try {
+                        final var result = getUserBandPrivilegesQueryHandler.handle(query);
+                        final var response = QueryResultToResponseMapper.toResponse(result);
+                        return ResponseEntity.ok(response);
+                    } catch (final Exception exception) {
+                        log.error("An error occurred during getting band member privileges", exception);
                         return ResponseEntity.internalServerError().build();
                     }
 
