@@ -2,7 +2,7 @@ package com.qsspy.bands.command.infrastucture.adapter.controller;
 
 import org.springframework.lang.Nullable;
 
-record ChangeBandDefaultPrivilegesRequestBody(
+record ChangeBandPrivilegesRequestBody(
         @Nullable
         Boolean canAccessCalendar,
         @Nullable

@@ -6,6 +6,7 @@ import com.qsspy.bands.command.application.creation.port.input.CreateBandCommand
 import com.qsspy.bands.command.application.defaultprivileges.port.input.ChangeBandDefaultPrivilegesCommandHandler;
 import com.qsspy.bands.command.application.member.addition.port.input.AddBandMemberCommand;
 import com.qsspy.bands.command.application.member.addition.port.input.AddBandMemberCommandHandler;
+import com.qsspy.bands.command.application.member.changeprivileges.port.input.ChangeMemberPrivilegesCommandHandler;
 import com.qsspy.bands.command.application.member.removal.port.input.RemoveBandMemberCommand;
 import com.qsspy.bands.command.application.member.removal.port.input.RemoveBandMemberCommandHandler;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +26,7 @@ class BandController {
     private final AuthInterceptor authInterceptor;
     private final CreateBandCommandHandler createBandCommandHandler;
     private final ChangeBandDefaultPrivilegesCommandHandler changeBandDefaultPrivilegesCommandHandler;
+    private final ChangeMemberPrivilegesCommandHandler changeMemberPrivilegesCommandHandler;
     private final AddBandMemberCommandHandler addBandMemberCommandHandler;
     private final RemoveBandMemberCommandHandler removeBandMemberCommandHandler;
 
@@ -58,7 +60,7 @@ class BandController {
     ResponseEntity<Object> changeBandDefaultPrivileges(
             @RequestHeader(HttpHeaders.AUTHORIZATION) final String token,
             @PathVariable("bandId") final UUID bandId,
-            @RequestBody final ChangeBandDefaultPrivilegesRequestBody request
+            @RequestBody final ChangeBandPrivilegesRequestBody request
     ) {
         return authInterceptor.withBandAdminAuthorization(
                 token,
@@ -70,6 +72,30 @@ class BandController {
                         return ResponseEntity.ok().build();
                     } catch (final Exception exception) {
                         log.error("An error occurred during changing band default privileges", exception);
+                        return ResponseEntity.internalServerError().build();
+                    }
+                },
+                () -> ResponseEntity.internalServerError().build()
+        );
+    }
+
+    @PatchMapping("/{bandId}/members/{memberId}/privileges")
+    ResponseEntity<Object> changeBandMemberPrivileges(
+            @RequestHeader(HttpHeaders.AUTHORIZATION) final String token,
+            @PathVariable("bandId") final UUID bandId,
+            @PathVariable("memberId") final UUID memberId,
+            @RequestBody final ChangeBandMemberPrivilegesRequestBody request
+    ) {
+        return authInterceptor.withBandAdminAuthorization(
+                token,
+                bandId,
+                context -> {
+                    final var command = RequestToCommandMapper.toCommand(bandId, memberId, request);
+                    try {
+                        changeMemberPrivilegesCommandHandler.handle(command);
+                        return ResponseEntity.ok().build();
+                    } catch (final Exception exception) {
+                        log.error("An error occurred during changing band member privileges", exception);
                         return ResponseEntity.internalServerError().build();
                     }
                 },
