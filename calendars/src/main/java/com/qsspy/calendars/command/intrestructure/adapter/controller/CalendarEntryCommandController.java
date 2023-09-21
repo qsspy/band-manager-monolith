@@ -18,7 +18,7 @@ import java.util.UUID;
 @RequestMapping("/api/v1/bands/{bandId}")
 @RequiredArgsConstructor
 @Slf4j
-class CalendarEntryController {
+class CalendarEntryCommandController {
 
     private final AuthInterceptor authInterceptor;
     private final CreateCalendarEntryCommandHandler createCalendarEntryCommandHandler;
