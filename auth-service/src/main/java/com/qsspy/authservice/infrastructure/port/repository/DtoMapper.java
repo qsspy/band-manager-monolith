@@ -23,6 +23,7 @@ final class DtoMapper {
                                 .canAddCalendarEntries(privilegesDto.canAddCalendarEntries())
                                 .canEditCalendarEntries(privilegesDto.canEditCalendarEntries())
                                 .canDeleteCalendarEntries(privilegesDto.canDeleteCalendarEntries())
+                                .canAccessFinanceHistory(privilegesDto.canAccessFinanceHistory())
                                 .build()
                 )
                 .build();

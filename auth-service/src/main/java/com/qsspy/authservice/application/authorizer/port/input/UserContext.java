@@ -28,6 +28,7 @@ public record UserContext(
             boolean canAddFinanceEntries,
             boolean canAddCalendarEntries,
             boolean canEditCalendarEntries,
-            boolean canDeleteCalendarEntries
+            boolean canDeleteCalendarEntries,
+            boolean canAccessFinanceHistory
     ) { }
 }

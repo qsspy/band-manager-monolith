@@ -15,7 +15,7 @@ import java.util.UUID;
 @RequestMapping("/api/v1/bands/{bandId}")
 @RequiredArgsConstructor
 @Slf4j
-class FinanceEntryController {
+class FinanceEntryCommandController {
 
     private final AuthInterceptor authInterceptor;
     private final AddFinanceEntryCommandHandler addFinanceEntryCommandHandler;

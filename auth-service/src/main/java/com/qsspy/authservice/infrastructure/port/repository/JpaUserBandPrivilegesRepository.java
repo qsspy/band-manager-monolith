@@ -18,7 +18,8 @@ interface JpaUserBandPrivilegesRepository extends JpaRepository<BandMemberPrivil
                 p.canAddFinanceEntries,
                 p.canAddCalendarEntries,
                 p.canEditCalendarEntries,
-                p.canDeleteCalendarEntries
+                p.canDeleteCalendarEntries,
+                p.canAccessFinanceHistory
            )
            FROM BAND_MEMBER_PRIVILEGES p
            WHERE
