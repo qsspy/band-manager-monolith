@@ -1,4 +1,4 @@
-package com.qsspy.commons.architecture.cqrs;
+package com.qsspy.commons.architecture.ddd;
 
 public class DomainValidationException extends RuntimeException {
 

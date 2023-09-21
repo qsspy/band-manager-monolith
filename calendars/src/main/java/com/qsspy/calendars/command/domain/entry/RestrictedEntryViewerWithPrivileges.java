@@ -1,6 +1,6 @@
 package com.qsspy.calendars.command.domain.entry;
 
-import com.qsspy.commons.architecture.cqrs.DomainValidationException;
+import com.qsspy.commons.architecture.ddd.DomainValidationException;
 import com.qsspy.commons.architecture.ddd.Entity;
 import lombok.*;
 

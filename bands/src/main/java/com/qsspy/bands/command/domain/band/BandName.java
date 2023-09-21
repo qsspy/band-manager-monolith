@@ -1,6 +1,6 @@
 package com.qsspy.bands.command.domain.band;
 
-import com.qsspy.commons.architecture.cqrs.DomainValidationException;
+import com.qsspy.commons.architecture.ddd.DomainValidationException;
 import com.qsspy.commons.architecture.ddd.ValueObject;
 
 record BandName(String value) implements ValueObject {

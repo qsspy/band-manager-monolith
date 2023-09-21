@@ -21,7 +21,7 @@ import java.util.UUID;
 @RequestMapping("/api/v1/bands")
 @RequiredArgsConstructor
 @Slf4j
-class BandController {
+class BandCommandController {
 
     private final AuthInterceptor authInterceptor;
     private final CreateBandCommandHandler createBandCommandHandler;

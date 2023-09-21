@@ -3,7 +3,7 @@ package com.qsspy.bands.command.domain.band;
 import com.qsspy.bands.command.domain.band.dto.DefaultPrivilegesChangeSpecification;
 import com.qsspy.bands.command.domain.band.dto.MemberPrivilegesChangeSpecification;
 import com.qsspy.commons.architecture.ddd.AggregateRoot;
-import com.qsspy.commons.architecture.cqrs.DomainValidationException;
+import com.qsspy.commons.architecture.ddd.DomainValidationException;
 import com.qsspy.commons.architecture.ddd.DomainException;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
