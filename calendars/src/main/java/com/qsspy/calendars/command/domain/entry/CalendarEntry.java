@@ -1,5 +1,6 @@
 package com.qsspy.calendars.command.domain.entry;
 
+import com.qsspy.calendars.command.domain.entry.dto.EditCalendarEntryData;
 import com.qsspy.commons.architecture.cqrs.DomainValidationException;
 import com.qsspy.commons.architecture.ddd.AggregateRoot;
 import lombok.AccessLevel;
@@ -19,16 +20,30 @@ public class CalendarEntry implements AggregateRoot {
     private final AggregateId id;
     private final BandId bandId;
 
-    private final EventDate eventDate;
-    private final EventKind eventKind;
-    private final Amount amount;
+    private EventDate eventDate;
+    private EventKind eventKind;
+    private Amount amount;
 
     @Nullable
-    private final Address address;
+    private Address address;
     @Nullable
-    private final EventDuration eventDuration;
+    private EventDuration eventDuration;
     @Nullable
-    private final Description description;
+    private Description description;
+
+    public CalendarEntry editEntry(final EditCalendarEntryData editData) {
+
+        eventDate = new EventDate(editData.eventDate());
+        eventKind = editData.eventKind();
+        amount = new Amount(editData.amount());
+        address = editData.address() != null ? new Address(editData.address()) : null;
+        eventDuration = editData.eventDuration() != null ? new EventDuration(editData.eventDuration()) : null;
+        description = editData.description() != null ? new Description(editData.description()) : null;
+
+        validateCurrentState();
+
+        return this;
+    }
 
     public Snapshot takeSnapshot() {
         return Snapshot.builder()

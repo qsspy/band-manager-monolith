@@ -8,4 +8,6 @@ import java.util.UUID;
 
 @Repository
 interface JpaCalendarEntryRepository extends JpaRepository<CalendarEntryEntity, UUID> {
+
+    void deleteByBandIdAndId(final UUID bandId, final UUID entryId);
 }

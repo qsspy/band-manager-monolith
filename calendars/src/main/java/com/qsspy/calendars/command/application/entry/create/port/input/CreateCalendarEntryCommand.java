@@ -27,6 +27,9 @@ public record CreateCalendarEntryCommand(
 ) implements Command {
     @Override
     public void validate() {
+        if(initiatorsBandId == null) {
+            throw new CommandValidationException("Initiator band Id cannot be null");
+        }
         if(bandId == null) {
             throw new CommandValidationException("Band id cannot be null");
         }
