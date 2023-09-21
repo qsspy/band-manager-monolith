@@ -15,7 +15,10 @@ interface JpaUserBandPrivilegesRepository extends JpaRepository<BandMemberPrivil
 
     @Query("""
            SELECT new com.qsspy.authservice.infrastructure.port.repository.UserBandPrivilegesDto(
-                p.canAddFinanceEntries
+                p.canAddFinanceEntries,
+                p.canAddCalendarEntries,
+                p.canEditCalendarEntries,
+                p.canDeleteCalendarEntries
            )
            FROM BAND_MEMBER_PRIVILEGES p
            WHERE

@@ -21,6 +21,7 @@
 		<module>commons</module>
 		<module>jpa-data-model</module>
         <module>finances</module>
+        <module>calendars</module>
     </modules>
 
 	<properties>
@@ -57,6 +58,11 @@
 			<dependency>
 				<groupId>com.qsspy</groupId>
 				<artifactId>finances</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.qsspy</groupId>
+				<artifactId>calendars</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>

@@ -20,6 +20,9 @@ final class DtoMapper {
                         privilegesDto == null ? null :
                         UserContext.Privileges.builder()
                                 .canAddFinanceEntries(privilegesDto.canAddFinanceEntries())
+                                .canAddCalendarEntries(privilegesDto.canAddCalendarEntries())
+                                .canEditCalendarEntries(privilegesDto.canEditCalendarEntries())
+                                .canDeleteCalendarEntries(privilegesDto.canDeleteCalendarEntries())
                                 .build()
                 )
                 .build();

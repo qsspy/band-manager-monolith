@@ -25,6 +25,9 @@ public record UserContext(
 
     @Builder
     public record Privileges(
-            boolean canAddFinanceEntries
+            boolean canAddFinanceEntries,
+            boolean canAddCalendarEntries,
+            boolean canEditCalendarEntries,
+            boolean canDeleteCalendarEntries
     ) { }
 }

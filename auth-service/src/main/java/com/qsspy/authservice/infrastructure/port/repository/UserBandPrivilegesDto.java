@@ -5,10 +5,13 @@ import com.qsspy.authservice.application.authorizer.port.input.UserContext;
 import java.util.UUID;
 
 public record UserBandPrivilegesDto(
-        boolean canAddFinanceEntries
+        boolean canAddFinanceEntries,
+        boolean canAddCalendarEntries,
+        boolean canEditCalendarEntries,
+        boolean canDeleteCalendarEntries
 ) {
 
     static UserBandPrivilegesDto allAllowed() {
-        return new UserBandPrivilegesDto(true);
+        return new UserBandPrivilegesDto(true, true, true, true);
     }
 }
