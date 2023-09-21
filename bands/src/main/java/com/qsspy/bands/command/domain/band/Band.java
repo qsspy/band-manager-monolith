@@ -221,6 +221,7 @@ public class Band implements AggregateRoot {
         name.validate();
         adminId.validate();
         defaultBandPrivileges.validate();
+        bandMembersWithPrivileges.forEach(BandMemberWithPrivileges::validate);
     }
 
     public Snapshot takeSnapshot() {

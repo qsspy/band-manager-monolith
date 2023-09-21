@@ -6,6 +6,7 @@ import lombok.*;
 import java.math.BigDecimal;
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 @Builder
@@ -43,4 +44,7 @@ public class CalendarEntryEntity {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "BAND_ID", referencedColumnName = "ID", insertable = false, updatable = false)
     private BandEntity band;
+
+    @OneToMany(mappedBy = "entry", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<RestrictedCalendarViewerPrivilegesEntity> restrictedViewerPrivileges;
 }

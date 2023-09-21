@@ -1,7 +1,7 @@
 package com.qsspy.calendars.command.intrestructure.port.repository;
 
 import com.qsspy.calendars.command.application.entry.common.port.output.CalendarEntrySaveRepository;
-import com.qsspy.calendars.command.application.entry.edit.port.output.CalendarEntryGetRepository;
+import com.qsspy.calendars.command.application.entry.common.port.output.CalendarEntryGetRepository;
 import com.qsspy.calendars.command.application.entry.remove.port.output.CalendarEntryDeleteRepository;
 import com.qsspy.calendars.command.domain.entry.CalendarEntry;
 import lombok.RequiredArgsConstructor;
@@ -24,9 +24,9 @@ class DatabaseCalendarEntryRepository implements CalendarEntrySaveRepository, Ca
 
 
     @Override
-    public Optional<CalendarEntry> findById(final UUID entryId) {
+    public Optional<CalendarEntry> findByBandIdAndId(final UUID bandId, final UUID entryId) {
         return jpaRepository
-                .findById(entryId)
+                .findByBandIdAndId(bandId, entryId)
                 .map(PersistentEntityToDomainMapper::toEntity);
     }
 

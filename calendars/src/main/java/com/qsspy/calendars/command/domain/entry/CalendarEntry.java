@@ -1,6 +1,7 @@
 package com.qsspy.calendars.command.domain.entry;
 
 import com.qsspy.calendars.command.domain.entry.dto.EditCalendarEntryData;
+import com.qsspy.calendars.command.domain.entry.dto.RestrictedMemberPrivilegesData;
 import com.qsspy.commons.architecture.cqrs.DomainValidationException;
 import com.qsspy.commons.architecture.ddd.AggregateRoot;
 import lombok.AccessLevel;
@@ -11,6 +12,7 @@ import org.springframework.lang.Nullable;
 import java.math.BigDecimal;
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 @Builder(access = AccessLevel.PACKAGE)
@@ -18,7 +20,7 @@ import java.util.UUID;
 public class CalendarEntry implements AggregateRoot {
 
     private final AggregateId id;
-    private final BandId bandId;
+    private final EntryId bandId;
 
     private EventDate eventDate;
     private EventKind eventKind;
@@ -31,6 +33,8 @@ public class CalendarEntry implements AggregateRoot {
     @Nullable
     private Description description;
 
+    private final List<RestrictedEntryViewerWithPrivileges> restrictedViewers;
+
     public CalendarEntry editEntry(final EditCalendarEntryData editData) {
 
         eventDate = new EventDate(editData.eventDate());
@@ -41,37 +45,36 @@ public class CalendarEntry implements AggregateRoot {
         description = editData.description() != null ? new Description(editData.description()) : null;
 
         validateCurrentState();
-
         return this;
     }
 
-    public Snapshot takeSnapshot() {
-        return Snapshot.builder()
-                .id(id.value())
-                .bandId(bandId.value())
-                .eventDate(eventDate.value())
-                .eventKind(eventKind)
-                .amount(amount.value())
-                .address(address != null ? address.fullAddress() : null)
-                .eventDuration(eventDuration != null ? eventDuration.value() : null)
-                .description(description != null ? description.text() : null)
-                .build();
-    }
+    public CalendarEntry editMemberEntryPrivileges(final RestrictedMemberPrivilegesData data) {
 
-    @Builder
-    public record Snapshot(
-            UUID id,
-            UUID bandId,
-            LocalDateTime eventDate,
-            EventKind eventKind,
-            BigDecimal amount,
-            @Nullable
-            String address,
-            @Nullable
-            Duration eventDuration,
-            @Nullable
-            String description
-    ) { }
+        restrictedViewers.stream()
+                .filter(viewer -> viewer.getMemberId().value().equals(data.memberId()))
+                .findFirst()
+                .ifPresentOrElse(
+                        viewer -> {
+                            viewer.setCanSeeCalendarEntry(new Privilege(data.canSeeCalendarEntry()));
+                            viewer.setCanSeeCalendarEntryPayment(new Privilege(data.canSeeCalendarEntryPayment()));
+                            viewer.setCanSeeCalendarEntryDetails(new Privilege(data.canSeeCalendarEntryDetails()));
+                        },
+                        () -> {
+                            restrictedViewers.add(
+                                    RestrictedEntryViewerWithPrivileges.builder()
+                                            .entryId(new EntryId(id.value()))
+                                            .memberId(new MemberId(data.memberId()))
+                                            .canSeeCalendarEntry(new Privilege(data.canSeeCalendarEntry()))
+                                            .canSeeCalendarEntryPayment(new Privilege(data.canSeeCalendarEntryPayment()))
+                                            .canSeeCalendarEntryDetails(new Privilege(data.canSeeCalendarEntryDetails()))
+                                            .build()
+                            );
+                        }
+                );
+
+        validateCurrentState();
+        return this;
+    }
 
     void validateCurrentState() {
         if(id == null) {
@@ -89,11 +92,16 @@ public class CalendarEntry implements AggregateRoot {
         if(amount == null) {
             throw new DomainValidationException("Amount cannot be null!");
         }
+        if(restrictedViewers == null) {
+            throw new DomainValidationException("Restricted viewers cannot be null!");
+        }
 
         id.validate();
         bandId.validate();
         eventDate.validate();
         amount.validate();
+        restrictedViewers.forEach(RestrictedEntryViewerWithPrivileges::validate);
+
         if(address != null) {
             address.validate();
         }
@@ -104,4 +112,34 @@ public class CalendarEntry implements AggregateRoot {
             description.validate();
         }
     }
+
+    public Snapshot takeSnapshot() {
+        return Snapshot.builder()
+                .id(id.value())
+                .bandId(bandId.value())
+                .eventDate(eventDate.value())
+                .eventKind(eventKind)
+                .amount(amount.value())
+                .address(address != null ? address.fullAddress() : null)
+                .eventDuration(eventDuration != null ? eventDuration.value() : null)
+                .description(description != null ? description.text() : null)
+                .restrictedViewers(restrictedViewers.stream().map(RestrictedEntryViewerWithPrivileges::takeSnapshot).toList())
+                .build();
+    }
+
+    @Builder
+    public record Snapshot(
+            UUID id,
+            UUID bandId,
+            LocalDateTime eventDate,
+            EventKind eventKind,
+            BigDecimal amount,
+            @Nullable
+            String address,
+            @Nullable
+            Duration eventDuration,
+            @Nullable
+            String description,
+            List<RestrictedEntryViewerWithPrivileges.Snapshot> restrictedViewers
+    ) { }
 }
