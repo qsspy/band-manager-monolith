@@ -9,10 +9,11 @@ public record UserBandPrivilegesDto(
         boolean canAddCalendarEntries,
         boolean canEditCalendarEntries,
         boolean canDeleteCalendarEntries,
-        boolean canAccessFinanceHistory
+        boolean canAccessFinanceHistory,
+        boolean canAccessCalendar
 ) {
 
     static UserBandPrivilegesDto allAllowed() {
-        return new UserBandPrivilegesDto(true, true, true, true, true);
+        return new UserBandPrivilegesDto(true, true, true, true, true,true);
     }
 }
