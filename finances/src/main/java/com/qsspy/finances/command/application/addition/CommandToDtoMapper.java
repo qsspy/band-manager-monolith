@@ -1,7 +1,7 @@
 package com.qsspy.finances.command.application.addition;
 
+import com.qsspy.domain.finances.dto.FinanceEntrySpecification;
 import com.qsspy.finances.command.application.addition.port.input.AddFinanceEntryCommand;
-import com.qsspy.finances.command.domain.entry.dto.FinanceEntrySpecification;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 

@@ -1,7 +1,7 @@
 package com.qsspy.calendars.command.domain.entry;
 
 import com.qsspy.commons.architecture.ddd.DomainValidationException;
-import com.qsspy.commons.architecture.ddd.Entity;
+import com.qsspy.commons.architecture.ddd.DomainEntity;
 import lombok.*;
 
 import java.util.UUID;
@@ -10,7 +10,7 @@ import java.util.UUID;
 @Builder(access = AccessLevel.PACKAGE)
 @Getter(AccessLevel.PACKAGE)
 @Setter(AccessLevel.PACKAGE)
-public class RestrictedEntryViewerWithPrivileges implements Entity {
+public class RestrictedEntryViewerWithPrivileges implements DomainEntity {
 
     private final EntryId entryId;
     private final MemberId memberId;

@@ -1,9 +1,9 @@
 package com.qsspy.finances.command.application.addition;
 
+import com.qsspy.domain.finances.FinanceEntryFactory;
 import com.qsspy.finances.command.application.addition.port.input.AddFinanceEntryCommand;
 import com.qsspy.finances.command.application.addition.port.input.AddFinanceEntryCommandHandler;
 import com.qsspy.finances.command.application.addition.port.output.FinanceEntrySaveRepository;
-import com.qsspy.finances.command.domain.entry.FinanceEntryFactory;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

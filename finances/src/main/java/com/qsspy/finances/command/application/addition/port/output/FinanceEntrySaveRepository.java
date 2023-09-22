@@ -1,6 +1,6 @@
 package com.qsspy.finances.command.application.addition.port.output;
 
-import com.qsspy.finances.command.domain.entry.FinanceEntry;
+import com.qsspy.domain.finances.FinanceEntry;
 
 public interface FinanceEntrySaveRepository {
 

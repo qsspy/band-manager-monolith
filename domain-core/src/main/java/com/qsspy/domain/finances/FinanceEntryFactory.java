@@ -1,9 +1,7 @@
-package com.qsspy.finances.command.domain.entry;
+package com.qsspy.domain.finances;
 
-import com.qsspy.finances.command.domain.entry.dto.FinanceEntrySpecification;
+import com.qsspy.domain.finances.dto.FinanceEntrySpecification;
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.NoArgsConstructor;
 
 import java.util.UUID;
@@ -20,20 +18,6 @@ public final class FinanceEntryFactory {
                 .amount(new Amount(spec.amount()))
                 .initiator(new Initiator(spec.initiatorEmail()))
                 .isOutcome(spec.isOutcome())
-                .build();
-
-        entry.validateCurrentState();
-
-        return entry;
-    }
-
-    public static FinanceEntry instantiateFromSnapshot(final FinanceEntry.Snapshot snapshot) {
-        final var entry = FinanceEntry.builder()
-                .id(new AggregateId(snapshot.id()))
-                .bandId(new BandId(snapshot.bandId()))
-                .description(snapshot.description() != null ? new Description(snapshot.description()) : null)
-                .initiator(new Initiator(snapshot.initiatorEmail()))
-                .isOutcome(snapshot.isOutcome())
                 .build();
 
         entry.validateCurrentState();

@@ -22,7 +22,10 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 		}
 )
 @EntityScan(
-		basePackages = {"com.qsspy.jpadatamodel"}
+		basePackages = {
+				"com.qsspy.jpadatamodel",
+				"com.qsspy.domain",
+		}
 )
 public class BandManagerApplication {
 

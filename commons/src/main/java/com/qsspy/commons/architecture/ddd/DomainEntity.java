@@ -1,6 +1,6 @@
 package com.qsspy.commons.architecture.ddd;
 
-public interface Entity {
+public interface DomainEntity {
 
     /**
      * Self validation method

@@ -1,4 +1,4 @@
-package com.qsspy.finances.command.domain.entry.dto;
+package com.qsspy.domain.finances.dto;
 
 import lombok.Builder;
 import org.springframework.lang.Nullable;

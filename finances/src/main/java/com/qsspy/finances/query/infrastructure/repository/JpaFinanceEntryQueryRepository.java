@@ -1,7 +1,7 @@
 package com.qsspy.finances.query.infrastructure.repository;
 
+import com.qsspy.domain.finances.FinanceEntry;
 import com.qsspy.finances.query.application.entries.port.output.dto.FinanceEntryDTO;
-import com.qsspy.jpadatamodel.entity.FinanceEntryEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -11,10 +11,10 @@ import java.util.List;
 import java.util.UUID;
 
 @Repository
-interface JpaFinanceEntryQueryRepository extends JpaRepository<FinanceEntryEntity, UUID> {
+interface JpaFinanceEntryQueryRepository extends JpaRepository<FinanceEntry, UUID> {
 
     @Query("""
-           SELECT SUM(f.amount)
+           SELECT SUM(f.amount.value)
            FROM FINANCE_ENTRIES f
            WHERE f.bandId = :bandId
            """)
@@ -22,17 +22,17 @@ interface JpaFinanceEntryQueryRepository extends JpaRepository<FinanceEntryEntit
 
     @Query("""
            SELECT new com.qsspy.finances.query.application.entries.port.output.dto.FinanceEntryDTO(
-                FE.id,
-                FE.amount,
-                FE.description,
-                FE.initiatorEmail,
+                FE.id.value,
+                FE.amount.value,
+                FE.description.text,
+                FE.initiator.email,
                 FE.isOutcome
            )
            FROM FINANCE_ENTRIES FE
-           INNER JOIN BANDS B ON FE.bandId = B.id
+           INNER JOIN BANDS B ON FE.bandId.value = B.id
            INNER JOIN USERS U ON B.id = U.memberBand.id OR B.id = U.ownedBand.id
            WHERE
-                FE.bandId = :bandId
+                FE.bandId.value = :bandId
                 AND U.id = :memberId
                 AND
                 (

@@ -22,6 +22,7 @@
 		<module>jpa-data-model</module>
         <module>finances</module>
         <module>calendars</module>
+        <module>domain-core</module>
     </modules>
 
 	<properties>
@@ -63,6 +64,11 @@
 			<dependency>
 				<groupId>com.qsspy</groupId>
 				<artifactId>calendars</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.qsspy</groupId>
+				<artifactId>domain-core</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>

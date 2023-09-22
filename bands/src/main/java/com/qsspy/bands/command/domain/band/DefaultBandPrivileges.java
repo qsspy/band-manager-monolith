@@ -1,7 +1,7 @@
 package com.qsspy.bands.command.domain.band;
 
 import com.qsspy.commons.architecture.ddd.DomainValidationException;
-import com.qsspy.commons.architecture.ddd.Entity;
+import com.qsspy.commons.architecture.ddd.DomainEntity;
 import lombok.*;
 
 import java.util.UUID;
@@ -10,7 +10,7 @@ import java.util.UUID;
 @Builder(access = AccessLevel.PACKAGE)
 @Getter(AccessLevel.PACKAGE)
 @Setter(AccessLevel.PACKAGE)
-public class DefaultBandPrivileges implements Entity {
+public class DefaultBandPrivileges implements DomainEntity {
 
     private final EntityId id;
 
