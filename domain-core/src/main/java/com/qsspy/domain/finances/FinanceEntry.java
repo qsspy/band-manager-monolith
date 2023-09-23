@@ -1,15 +1,10 @@
 package com.qsspy.domain.finances;
 
 import com.qsspy.commons.architecture.ddd.AggregateRoot;
-import com.qsspy.commons.architecture.ddd.DomainEntity;
 import com.qsspy.commons.architecture.ddd.DomainValidationException;
-import com.qsspy.jpadatamodel.entity.BandEntity;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.lang.Nullable;
-
-import java.math.BigDecimal;
-import java.util.UUID;
 
 @Builder(access = AccessLevel.PACKAGE)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)

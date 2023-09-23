@@ -14,10 +14,6 @@
     <dependencies>
         <dependency>
             <groupId>com.qsspy</groupId>
-            <artifactId>jpa-data-model</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.qsspy</groupId>
             <artifactId>commons</artifactId>
         </dependency>
         <dependency>

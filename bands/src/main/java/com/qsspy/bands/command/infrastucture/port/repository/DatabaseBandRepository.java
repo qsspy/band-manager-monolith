@@ -13,17 +13,17 @@ import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor
-class DatabaseBandUserRepository implements BandUserGetRepository {
+class DatabaseBandRepository implements BandSaveRepository, GetBandByIdRepository {
 
-    private final JpaBandUserRepository userRepository;
+    private final JpaBandRepository bandRepository;
 
     @Override
-    public Optional<User> findById(final UUID userId) {
-        return userRepository.findById(userId);
+    public void save(final Band band) {
+        bandRepository.save(band);
     }
 
     @Override
-    public Optional<User> findByEmail(final String email) {
-        return userRepository.findByEmail(email);
+    public Optional<Band> findById(final UUID bandId) {
+        return bandRepository.findById(bandId);
     }
 }

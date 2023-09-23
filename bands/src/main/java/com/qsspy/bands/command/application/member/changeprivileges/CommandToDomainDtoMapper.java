@@ -1,8 +1,7 @@
 package com.qsspy.bands.command.application.member.changeprivileges;
 
 import com.qsspy.bands.command.application.member.changeprivileges.port.input.ChangeMemberPrivilegesCommand;
-import com.qsspy.bands.command.domain.band.dto.DefaultPrivilegesChangeSpecification;
-import com.qsspy.bands.command.domain.band.dto.MemberPrivilegesChangeSpecification;
+import com.qsspy.domain.band.dto.MemberPrivilegesChangeSpecification;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 

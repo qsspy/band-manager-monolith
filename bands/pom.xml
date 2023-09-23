@@ -18,11 +18,11 @@
         </dependency>
         <dependency>
             <groupId>com.qsspy</groupId>
-            <artifactId>jpa-data-model</artifactId>
+            <artifactId>auth-service</artifactId>
         </dependency>
         <dependency>
             <groupId>com.qsspy</groupId>
-            <artifactId>auth-service</artifactId>
+            <artifactId>domain-core</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>

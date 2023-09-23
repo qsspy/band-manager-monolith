@@ -4,7 +4,7 @@ import com.qsspy.bands.command.application.common.port.output.BandSaveRepository
 import com.qsspy.bands.command.application.common.port.output.GetBandByIdRepository;
 import com.qsspy.bands.command.application.member.removal.port.input.RemoveBandMemberCommand;
 import com.qsspy.bands.command.application.member.removal.port.input.RemoveBandMemberCommandHandler;
-import com.qsspy.bands.command.domain.band.Band;
+import com.qsspy.domain.band.Band;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

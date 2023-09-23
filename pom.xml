@@ -19,7 +19,6 @@
 		<module>boot</module>
 		<module>bands</module>
 		<module>commons</module>
-		<module>jpa-data-model</module>
         <module>finances</module>
         <module>calendars</module>
         <module>domain-core</module>
@@ -49,11 +48,6 @@
 			<dependency>
 				<groupId>com.qsspy</groupId>
 				<artifactId>commons</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.qsspy</groupId>
-				<artifactId>jpa-data-model</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>

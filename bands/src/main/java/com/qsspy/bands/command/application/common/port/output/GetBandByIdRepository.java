@@ -1,6 +1,6 @@
 package com.qsspy.bands.command.application.common.port.output;
 
-import com.qsspy.bands.command.domain.band.Band;
+import com.qsspy.domain.band.Band;
 
 import java.util.Optional;
 import java.util.UUID;

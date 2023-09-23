@@ -29,35 +29,35 @@ interface JpaFinanceEntryQueryRepository extends JpaRepository<FinanceEntry, UUI
                 FE.isOutcome
            )
            FROM FINANCE_ENTRIES FE
-           INNER JOIN BANDS B ON FE.bandId.value = B.id
-           INNER JOIN USERS U ON B.id = U.memberBand.id OR B.id = U.ownedBand.id
+           INNER JOIN BANDS B ON FE.bandId.value = B.id.value
+           INNER JOIN USERS U ON B.id.value = U.memberBand.id.value OR B.id.value = U.ownedBand.id.value
            WHERE
                 FE.bandId.value = :bandId
                 AND U.id = :memberId
                 AND
                 (
-                    U.ownedBand.id = :bandId
+                    U.ownedBand.id.value = :bandId
                     OR
                     CASE
                         WHEN FE.isOutcome THEN
                             CASE WHEN (SELECT MP.canSeeFinanceOutcomeEntries
                                        FROM BAND_MEMBER_PRIVILEGES MP
-                                       WHERE MP.bandId = B.id AND MP.memberId = U.id) IS NULL THEN (SELECT BP.canSeeFinanceOutcomeEntries
-                                                                                                    FROM DEFAULT_BAND_PRIVILEGES BP
-                                                                                                    WHERE BP.band.id = B.id)
-                                 ELSE (SELECT MP.canSeeFinanceOutcomeEntries
+                                       WHERE MP.id.bandId = B.id.value AND MP.id.memberId = U.id) IS NULL THEN (SELECT BP.canSeeFinanceOutcomeEntries.isAllowed
+                                                                                                                FROM DEFAULT_BAND_PRIVILEGES BP
+                                                                                                                WHERE BP.id.value = B.id.value)
+                                 ELSE (SELECT MP.canSeeFinanceOutcomeEntries.isAllowed
                                        FROM BAND_MEMBER_PRIVILEGES MP
-                                       WHERE MP.bandId = B.id AND MP.memberId = U.id)
+                                       WHERE MP.id.bandId = B.id.value AND MP.id.memberId = U.id)
                             END
                         ELSE
                             CASE WHEN (SELECT MP.canSeeFinanceIncomeEntries
                                        FROM BAND_MEMBER_PRIVILEGES MP
-                                       WHERE MP.bandId = B.id AND MP.memberId = U.id) IS NULL THEN (SELECT BP.canSeeFinanceIncomeEntries
-                                                                                                    FROM DEFAULT_BAND_PRIVILEGES BP
-                                                                                                    WHERE BP.band.id = B.id)
-                                 ELSE (SELECT MP.canSeeFinanceIncomeEntries
+                                       WHERE MP.id.bandId = B.id.value AND MP.id.memberId = U.id) IS NULL THEN (SELECT BP.canSeeFinanceIncomeEntries.isAllowed
+                                                                                                                FROM DEFAULT_BAND_PRIVILEGES BP
+                                                                                                                WHERE BP.id.value = B.id.value)
+                                 ELSE (SELECT MP.canSeeFinanceIncomeEntries.isAllowed
                                        FROM BAND_MEMBER_PRIVILEGES MP
-                                       WHERE MP.bandId = B.id AND MP.memberId = U.id)
+                                       WHERE MP.id.memberId = B.id.value AND MP.id.memberId = U.id)
                             END
                     END
                 )

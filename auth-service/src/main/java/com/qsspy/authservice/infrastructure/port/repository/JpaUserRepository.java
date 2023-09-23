@@ -1,7 +1,6 @@
 package com.qsspy.authservice.infrastructure.port.repository;
 
-import com.qsspy.authservice.application.authorizer.port.input.UserContext;
-import com.qsspy.jpadatamodel.entity.UserEntity;
+import com.qsspy.domain.user.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -10,7 +9,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-interface JpaUserRepository extends JpaRepository<UserEntity, UUID> {
+interface JpaUserRepository extends JpaRepository<User, UUID> {
 
     @Query("""
            SELECT new com.qsspy.authservice.infrastructure.port.repository.UserDataDto(

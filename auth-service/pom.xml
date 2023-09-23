@@ -18,7 +18,7 @@
         </dependency>
         <dependency>
             <groupId>com.qsspy</groupId>
-            <artifactId>jpa-data-model</artifactId>
+            <artifactId>domain-core</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>

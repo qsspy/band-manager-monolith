@@ -1,40 +1,37 @@
 package com.qsspy.bands.query.infrastructure.port.repository;
 
 import com.qsspy.bands.query.application.defaultprivileges.port.output.dto.BandDefaultPrivilegesDTO;
-import com.qsspy.bands.query.application.members.port.output.dto.BandMemberDTO;
-import com.qsspy.jpadatamodel.entity.DefaultBandPrivilegesEntity;
-import com.qsspy.jpadatamodel.entity.UserEntity;
+import com.qsspy.domain.band.BandMemberPrivileges;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-interface JpaDefaultBandPrivilegesQueryRepository extends JpaRepository<DefaultBandPrivilegesEntity, UUID> {
+interface JpaDefaultBandPrivilegesQueryRepository extends JpaRepository<BandMemberPrivileges, UUID> {
 
     @Query("""
            SELECT new com.qsspy.bands.query.application.defaultprivileges.port.output.dto.BandDefaultPrivilegesDTO(
-                p.canAccessCalendar,
-                p.canAddCalendarEntries,
-                p.canEditCalendarEntries,
-                p.canDeleteCalendarEntries,
+                p.canAccessCalendar.isAllowed,
+                p.canAddCalendarEntries.isAllowed,
+                p.canEditCalendarEntries.isAllowed,
+                p.canDeleteCalendarEntries.isAllowed,
                 
-                p.canAccessFinanceHistory,
-                p.canAddFinanceEntries,
+                p.canAccessFinanceHistory.isAllowed,
+                p.canAddFinanceEntries.isAllowed,
                 
-                p.canSeeFinanceIncomeEntries,
-                p.canSeeFinanceOutcomeEntries,
+                p.canSeeFinanceIncomeEntries.isAllowed,
+                p.canSeeFinanceOutcomeEntries.isAllowed,
                 
-                p.canSeeCalendarEntryByDefault,
-                p.canSeeCalendarEntryPaymentByDefault,
-                p.canSeeCalendarEntryDetailsByDefault
+                p.canSeeCalendarEntryByDefault.isAllowed,
+                p.canSeeCalendarEntryPaymentByDefault.isAllowed,
+                p.canSeeCalendarEntryDetailsByDefault.isAllowed
            )
            FROM DEFAULT_BAND_PRIVILEGES p
            WHERE
-                p.id = :id
+                p.id.value = :id
            """)
     Optional<BandDefaultPrivilegesDTO> findBandDefaultPrivileges(final UUID id);
 }

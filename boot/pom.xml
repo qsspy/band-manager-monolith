@@ -38,10 +38,6 @@
         </dependency>
         <dependency>
             <groupId>com.qsspy</groupId>
-            <artifactId>jpa-data-model</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.qsspy</groupId>
             <artifactId>domain-core</artifactId>
         </dependency>
     </dependencies>
