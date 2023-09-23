@@ -1,12 +1,11 @@
 package com.qsspy.calendars.query.application.entries.list.port.input;
 
-import com.qsspy.calendars.command.domain.entry.EventKind;
 import com.qsspy.commons.architecture.cqrs.QueryResult;
+import com.qsspy.domain.calendar.EventKind;
 import lombok.Builder;
 import org.springframework.lang.Nullable;
 
 import java.math.BigDecimal;
-import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;

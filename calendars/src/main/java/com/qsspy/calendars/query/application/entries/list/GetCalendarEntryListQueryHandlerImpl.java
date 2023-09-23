@@ -1,6 +1,5 @@
 package com.qsspy.calendars.query.application.entries.list;
 
-import com.qsspy.calendars.command.domain.entry.EventKind;
 import com.qsspy.calendars.query.application.entries.list.port.input.GetCalendarEntryListQuery;
 import com.qsspy.calendars.query.application.entries.list.port.input.GetCalendarEntryListQueryHandler;
 import com.qsspy.calendars.query.application.entries.list.port.input.GetCalendarEntryListQueryResult;
@@ -32,7 +31,7 @@ class GetCalendarEntryListQueryHandlerImpl implements GetCalendarEntryListQueryH
     private GetCalendarEntryListQueryResult.ListItem toResponseItem(final CalendarEntryDTO entryDTO) {
         return GetCalendarEntryListQueryResult.ListItem.builder()
                 .id(entryDTO.id())
-                .eventKind(EventKind.valueOf(entryDTO.eventKind()))
+                .eventKind(entryDTO.eventKind())
                 .eventDate(entryDTO.eventDate())
                 .amount(resolveAmountByPrivileges(entryDTO))
                 .canSeeDetails(resolveCanSeeDetailsPrivilege(entryDTO))

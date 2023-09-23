@@ -1,31 +1,25 @@
-package com.qsspy.domain.finances;
+package com.qsspy.domain.calendar;
 
 import com.qsspy.commons.architecture.ddd.DomainValidationException;
 import com.qsspy.commons.architecture.ddd.ValueObject;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
-import jakarta.persistence.Id;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-
-import java.io.Serializable;
-import java.util.UUID;
 
 @Embeddable
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@EqualsAndHashCode
-class AggregateId implements ValueObject, Serializable {
+class Address implements ValueObject {
 
-    @Column(name = "ID")
-    private UUID value;
+    @Column(name = "ADDRESS")
+    private String fullAddress;
 
     @Override
     public void validate() {
-        if(value == null) {
-            throw new DomainValidationException("Id cannot be null!");
+        if(fullAddress == null || fullAddress.isBlank()) {
+            throw new DomainValidationException("Full address cannot be blank");
         }
     }
 }

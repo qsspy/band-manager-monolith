@@ -1,8 +1,8 @@
 package com.qsspy.calendars.command.application.entry.create.port.input;
 
-import com.qsspy.calendars.command.domain.entry.EventKind;
 import com.qsspy.commons.architecture.cqrs.Command;
 import com.qsspy.commons.architecture.cqrs.CommandValidationException;
+import com.qsspy.domain.calendar.EventKind;
 import lombok.Builder;
 import org.springframework.lang.Nullable;
 

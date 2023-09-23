@@ -1,6 +1,6 @@
 package com.qsspy.calendars.command.application.entry.common.port.output;
 
-import com.qsspy.calendars.command.domain.entry.CalendarEntry;
+import com.qsspy.domain.calendar.CalendarEntry;
 
 public interface CalendarEntrySaveRepository {
 

@@ -1,7 +1,7 @@
 package com.qsspy.calendars.command.application.entry.create;
 
 import com.qsspy.calendars.command.application.entry.create.port.input.CreateCalendarEntryCommand;
-import com.qsspy.calendars.command.domain.entry.dto.CalendarEntrySpecification;
+import com.qsspy.domain.calendar.dto.CalendarEntrySpecification;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 

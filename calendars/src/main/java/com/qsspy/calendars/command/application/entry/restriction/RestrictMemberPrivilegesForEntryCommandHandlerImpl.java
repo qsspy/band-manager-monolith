@@ -4,7 +4,7 @@ import com.qsspy.calendars.command.application.entry.common.port.output.Calendar
 import com.qsspy.calendars.command.application.entry.common.port.output.CalendarEntryGetRepository;
 import com.qsspy.calendars.command.application.entry.restriction.port.input.RestrictMemberPrivilegesForEntryCommand;
 import com.qsspy.calendars.command.application.entry.restriction.port.input.RestrictMemberPrivilegesForEntryCommandHandler;
-import com.qsspy.calendars.command.domain.entry.CalendarEntry;
+import com.qsspy.domain.calendar.CalendarEntry;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

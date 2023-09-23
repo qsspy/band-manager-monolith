@@ -1,4 +1,4 @@
-package com.qsspy.calendars.command.domain.entry;
+package com.qsspy.domain.calendar;
 
 public enum EventKind {
     WEDDING,

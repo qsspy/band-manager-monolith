@@ -3,7 +3,7 @@ package com.qsspy.calendars.command.application.entry.create;
 import com.qsspy.calendars.command.application.entry.common.port.output.CalendarEntrySaveRepository;
 import com.qsspy.calendars.command.application.entry.create.port.input.CreateCalendarEntryCommand;
 import com.qsspy.calendars.command.application.entry.create.port.input.CreateCalendarEntryCommandHandler;
-import com.qsspy.calendars.command.domain.entry.CalendarEntryFactory;
+import com.qsspy.domain.calendar.CalendarEntryFactory;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

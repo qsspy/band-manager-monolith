@@ -1,31 +1,27 @@
-package com.qsspy.domain.finances;
+package com.qsspy.domain.calendar;
 
 import com.qsspy.commons.architecture.ddd.DomainValidationException;
 import com.qsspy.commons.architecture.ddd.ValueObject;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
-import jakarta.persistence.Id;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-import java.io.Serializable;
-import java.util.UUID;
+import java.time.Duration;
 
 @Embeddable
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@EqualsAndHashCode
-class AggregateId implements ValueObject, Serializable {
+class EventDuration implements ValueObject {
 
-    @Column(name = "ID")
-    private UUID value;
+    @Column(name = "EVENT_DURATION")
+    private Duration value;
 
     @Override
     public void validate() {
         if(value == null) {
-            throw new DomainValidationException("Id cannot be null!");
+            throw new DomainValidationException("Event duration cannot be null!");
         }
     }
 }

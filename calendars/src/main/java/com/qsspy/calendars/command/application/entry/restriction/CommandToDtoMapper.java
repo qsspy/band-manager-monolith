@@ -1,7 +1,7 @@
 package com.qsspy.calendars.command.application.entry.restriction;
 
 import com.qsspy.calendars.command.application.entry.restriction.port.input.RestrictMemberPrivilegesForEntryCommand;
-import com.qsspy.calendars.command.domain.entry.dto.RestrictedMemberPrivilegesData;
+import com.qsspy.domain.calendar.dto.RestrictedMemberPrivilegesData;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 

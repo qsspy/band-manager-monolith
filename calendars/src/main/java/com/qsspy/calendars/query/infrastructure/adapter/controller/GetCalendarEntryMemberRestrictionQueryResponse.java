@@ -1,7 +1,7 @@
 package com.qsspy.calendars.query.infrastructure.adapter.controller;
 
-import com.qsspy.calendars.command.domain.entry.EventKind;
 import com.qsspy.commons.architecture.cqrs.QueryResult;
+import com.qsspy.domain.calendar.EventKind;
 import lombok.Builder;
 import org.springframework.lang.Nullable;
 

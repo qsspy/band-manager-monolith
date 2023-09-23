@@ -1,13 +1,12 @@
-package com.qsspy.calendars.command.domain.entry.dto;
+package com.qsspy.domain.calendar.dto;
 
-import com.qsspy.calendars.command.domain.entry.EventKind;
+import com.qsspy.domain.calendar.EventKind;
 import lombok.Builder;
 import org.springframework.lang.Nullable;
 
 import java.math.BigDecimal;
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 @Builder
 public record EditCalendarEntryData(

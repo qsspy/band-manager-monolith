@@ -1,4 +1,4 @@
-package com.qsspy.calendars.command.domain.entry.dto;
+package com.qsspy.domain.calendar.dto;
 
 import lombok.Builder;
 

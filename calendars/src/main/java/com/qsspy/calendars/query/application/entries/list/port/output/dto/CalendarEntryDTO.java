@@ -1,6 +1,6 @@
 package com.qsspy.calendars.query.application.entries.list.port.output.dto;
 
-import com.qsspy.calendars.command.domain.entry.EventKind;
+import com.qsspy.domain.calendar.EventKind;
 import org.springframework.lang.Nullable;
 
 import java.math.BigDecimal;
@@ -9,7 +9,7 @@ import java.util.UUID;
 
 public record CalendarEntryDTO(
         UUID id,
-        String eventKind,
+        EventKind eventKind,
         LocalDateTime eventDate,
         BigDecimal amount,
         @Nullable

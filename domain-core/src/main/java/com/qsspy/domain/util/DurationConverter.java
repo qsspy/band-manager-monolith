@@ -1,4 +1,4 @@
-package com.qsspy.jpadatamodel.entity;
+package com.qsspy.domain.util;
 
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;

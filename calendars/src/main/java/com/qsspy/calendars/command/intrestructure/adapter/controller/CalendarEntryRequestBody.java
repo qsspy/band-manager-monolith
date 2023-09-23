@@ -1,7 +1,7 @@
 package com.qsspy.calendars.command.intrestructure.adapter.controller;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.qsspy.calendars.command.domain.entry.EventKind;
+import com.qsspy.domain.calendar.EventKind;
 import org.springframework.lang.Nullable;
 
 import java.math.BigDecimal;

@@ -1,14 +1,10 @@
-package com.qsspy.domain.finances;
+package com.qsspy.domain.calendar;
 
 import com.qsspy.commons.architecture.ddd.DomainValidationException;
 import com.qsspy.commons.architecture.ddd.ValueObject;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
-import jakarta.persistence.Id;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.io.Serializable;
 import java.util.UUID;
@@ -16,6 +12,7 @@ import java.util.UUID;
 @Embeddable
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Getter(AccessLevel.PACKAGE)
 @EqualsAndHashCode
 class AggregateId implements ValueObject, Serializable {
 
@@ -28,4 +25,6 @@ class AggregateId implements ValueObject, Serializable {
             throw new DomainValidationException("Id cannot be null!");
         }
     }
+
+
 }

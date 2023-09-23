@@ -1,6 +1,5 @@
 package com.qsspy.calendars.query.application.membersrestrictions;
 
-import com.qsspy.calendars.command.domain.entry.EventKind;
 import com.qsspy.calendars.query.application.membersrestrictions.port.input.GetCalendarEntryMemberRestrictionQuery;
 import com.qsspy.calendars.query.application.membersrestrictions.port.input.GetCalendarEntryMemberRestrictionQueryHandler;
 import com.qsspy.calendars.query.application.membersrestrictions.port.input.GetCalendarEntryMemberRestrictionQueryResult;
@@ -46,7 +45,7 @@ class GetCalendarEntryMemberRestrictionQueryHandlerImpl implements GetCalendarEn
                                 entryRestrictions.put(
                                         dto.entryId(),
                                         new GetCalendarEntryMemberRestrictionQueryResult.EntryRestriction(
-                                                EventKind.valueOf(dto.eventKind()),
+                                                dto.eventKind(),
                                                 dto.eventDate(),
                                                 memberMap
                                         )
