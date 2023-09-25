@@ -25,12 +25,4 @@ class RegisterCommandHandlerImpl implements RegisterCommandHandler {
         }
         registerRepository.save(command);
     }
-
-    //TODO remove in future
-    @PostConstruct
-    void initRegistration() {
-        handle(new RegisterCommand("1@1.1", "12345", "1", "1"));
-        handle(new RegisterCommand("2@2.2", "12345", "2", "2"));
-        handle(new RegisterCommand("3@3.3", "12345", "3", "3"));
-    }
 }

@@ -1,21 +1,14 @@
 spring:
   datasource:
-    url: jdbc:h2:mem:mydb
+    url: jdbc:postgresql://localhost:5432/bm-monolith-db
     username: sa
     password: password
-    driverClassName: org.h2.Driver
+    driverClassName: org.postgresql.Driver
   jpa:
-    spring.jpa.database-platform: org.hibernate.dialect.H2Dialect
+    spring.jpa.database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
       ddl-auto: update # TODO remove in future
-    show-sql: true
-    properties:
-      hibernate:
-        format_sql: true
-  h2:
-    console:
-      enabled: true
 jwt:
   secret: OGil2Ll4pvD7Pfg/7hbe3r2Q7SYfbpKt2Neulyp4NUxRb5kCDYPJpgbJ/9U2Q9i7
   expiration:
-    minutes: 5
+    minutes: 60

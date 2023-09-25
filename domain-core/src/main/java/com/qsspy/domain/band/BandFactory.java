@@ -14,8 +14,7 @@ import java.util.UUID;
 public final class BandFactory {
 
     public static Band createrNewBand(final BandCreationData creationData, final User adminUser) {
-        //TODO change to random generation
-        final var id = UUID.fromString("9f77ac07-9422-4390-bf4d-4b039f7416ba");
+        final var id = UUID.randomUUID();
         final var band = Band.builder()
                 .id(new AggregateId(id))
                 .name(new BandName(creationData.bandName()))
