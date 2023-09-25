@@ -29,8 +29,7 @@ public class User {
     @Column(name = "PASSWORD")
     private String password;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "OWN_BAND_ID", referencedColumnName = "ID")
+    @OneToOne(mappedBy = "adminUser", fetch = FetchType.LAZY)
     private Band ownedBand;
 
     @ManyToOne(fetch = FetchType.LAZY)

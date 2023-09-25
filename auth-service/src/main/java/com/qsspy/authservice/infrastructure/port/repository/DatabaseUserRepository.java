@@ -6,6 +6,7 @@ import com.qsspy.authservice.application.login.port.output.UserLoginRepository;
 import com.qsspy.authservice.application.register.port.input.RegisterCommand;
 import com.qsspy.authservice.application.register.port.output.UserRegisterRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
@@ -13,6 +14,7 @@ import java.util.UUID;
 
 @Repository
 @RequiredArgsConstructor
+@Slf4j
 class DatabaseUserRepository implements UserContextRepository, UserLoginRepository, UserRegisterRepository {
 
     private final JpaUserRepository jpaUserRepository;
@@ -20,6 +22,7 @@ class DatabaseUserRepository implements UserContextRepository, UserLoginReposito
 
     @Override
     public Optional<UserContext> findById(final UUID userId) {
+        log.info("Finding user with id : {}", userId);
         return jpaUserRepository
                 .findUserContextById(userId)
                 .map(userData -> {

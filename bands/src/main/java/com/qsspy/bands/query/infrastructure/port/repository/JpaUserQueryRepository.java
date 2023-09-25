@@ -20,9 +20,9 @@ interface JpaUserQueryRepository extends JpaRepository<User, UUID> {
                 u.lastName
            )
            FROM USERS u
-           INNER JOIN BANDS b ON u.memberBand.id = b.id
+           INNER JOIN BANDS b ON u.memberBand.id.value = b.id.value
            WHERE
-                b.id = :id
+                b.id.value = :id
            """)
     List<BandMemberDTO> findBandMembersById(final UUID id);
 }

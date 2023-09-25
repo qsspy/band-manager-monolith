@@ -24,6 +24,6 @@ class DatabaseBandRepository implements BandSaveRepository, GetBandByIdRepositor
 
     @Override
     public Optional<Band> findById(final UUID bandId) {
-        return bandRepository.findById(bandId);
+        return bandRepository.findByIdValue(bandId);
     }
 }

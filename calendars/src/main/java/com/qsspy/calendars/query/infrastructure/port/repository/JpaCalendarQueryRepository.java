@@ -40,24 +40,26 @@ interface JpaCalendarQueryRepository extends JpaRepository<CalendarEntry, UUID> 
                 CE.description.text
            )
            FROM CALENDAR_ENTRIES CE
-           INNER JOIN USERS U ON CE.bandId.value = U.memberBand.id.value OR CE.bandId.value = U.ownedBand.id.value
-           WHERE CE.id.value = :entryId
-                 AND CE.bandId.value = :bandId
-                 AND U.id = :memberId
-                 AND
-                 (
-                     U.ownedBand.id.value = :bandId
-                     OR
-                     CASE WHEN (SELECT EP.canSeeCalendarEntryDetails
-                                FROM RESTRICTED_CALENDAR_ENTRY_VIEWER_PRIVILEGES EP
-                                WHERE EP.id.entryId = CE.id.value AND EP.id.memberId = U.id) IS NULL THEN (SELECT BP.canSeeCalendarEntryDetailsByDefault.isAllowed
-                                                                                                      FROM DEFAULT_BAND_PRIVILEGES BP
-                                                                                                      WHERE BP.id.value = CE.bandId.value)
-                          ELSE (SELECT EP.canSeeCalendarEntryDetails.isAllowed
-                                FROM RESTRICTED_CALENDAR_ENTRY_VIEWER_PRIVILEGES EP
-                                WHERE EP.id.entryId = CE.id.value AND EP.id.memberId = U.id)
-                     END
-                 )
+           INNER JOIN BANDS B ON B.id.value = CE.bandId.value
+           LEFT JOIN USERS U1 ON U1.id = B.adminUser.id
+           LEFT JOIN USERS U2 ON U2.memberBand.id.value = B.id.value
+           LEFT JOIN RESTRICTED_CALENDAR_ENTRY_VIEWER_PRIVILEGES EP on EP.id.memberId = U2.id AND EP.id.entryId = CE.id.value
+           INNER JOIN DEFAULT_BAND_PRIVILEGES DP ON DP.id.value = B.id.value
+           WHERE B.id.value = :bandId
+               AND CE.id.value = :entryId
+               AND
+                    (
+                        U1.id = :memberId
+                        OR
+                        (
+                           U2.id = :memberId
+                           AND
+                           CASE
+                                WHEN EP.canSeeCalendarEntryDetails IS NULL THEN DP.canSeeCalendarEntryDetailsByDefault.isAllowed
+                                ELSE EP.canSeeCalendarEntryDetails.isAllowed
+                           END
+                        )
+                    )
            """)
     Optional<CalendarEntryDetailsDTO> findCalendarEntryDetailsByBandIdAndMemberIdAndEntryId(final UUID bandId, final UUID memberId, final UUID entryId);
 
@@ -73,20 +75,25 @@ interface JpaCalendarQueryRepository extends JpaRepository<CalendarEntry, UUID> 
                 DP.canSeeCalendarEntryPaymentByDefault.isAllowed
            )
            FROM CALENDAR_ENTRIES CE
-           INNER JOIN USERS U ON U.ownedBand.id.value = CE.bandId.value OR U.memberBand.id.value = CE.bandId.value
-           LEFT JOIN RESTRICTED_CALENDAR_ENTRY_VIEWER_PRIVILEGES EP on EP.id.memberId = U.id AND EP.id.entryId = CE.id.value
-           INNER JOIN DEFAULT_BAND_PRIVILEGES DP ON DP.id.value = CE.bandId.value
-           WHERE CE.bandId.value = :bandId
-               AND U.id = :memberId
+           INNER JOIN BANDS B ON B.id.value = CE.bandId.value
+           LEFT JOIN USERS U1 ON U1.id = B.adminUser.id
+           LEFT JOIN USERS U2 ON U2.memberBand.id.value = B.id.value
+           LEFT JOIN RESTRICTED_CALENDAR_ENTRY_VIEWER_PRIVILEGES EP on EP.id.memberId = U2.id AND EP.id.entryId = CE.id.value
+           INNER JOIN DEFAULT_BAND_PRIVILEGES DP ON DP.id.value = B.id.value
+           WHERE B.id.value = :bandId
                AND
-                   (
-                       U.ownedBand.id.value = CE.bandId.value
-                       OR
-                       CASE
-                           WHEN EP.canSeeCalendarEntry IS NULL THEN DP.canSeeCalendarEntryByDefault.isAllowed
-                           ELSE EP.canSeeCalendarEntry.isAllowed
-                       END
-                   )
+                    (
+                        U1.id = :memberId
+                        OR
+                        (
+                           U2.id = :memberId
+                           AND
+                           CASE
+                                WHEN EP.canSeeCalendarEntry IS NULL THEN DP.canSeeCalendarEntryByDefault.isAllowed
+                                ELSE EP.canSeeCalendarEntry.isAllowed
+                           END
+                        )
+                    )
            """)
     List<CalendarEntryDTO> getCalendarEntriesByBandIdAndMemberId(final UUID bandId, final UUID memberId);
 }

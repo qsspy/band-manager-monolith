@@ -52,7 +52,7 @@ class QueryResultToResponseMapper {
         return GetCalendarEntryDetailsQueryResponse.builder()
                 .address(result.address())
                 .description(result.description())
-                .eventDurationHours(result.eventDuration() != null ? (int) result.eventDuration().get(ChronoUnit.HOURS) : null)
+                .eventDurationHours(result.eventDuration() != null ? (int) (result.eventDuration().get(ChronoUnit.SECONDS) / 3600) : null)
                 .build();
     }
 

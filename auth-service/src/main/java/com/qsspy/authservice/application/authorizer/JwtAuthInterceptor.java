@@ -79,6 +79,7 @@ class JwtAuthInterceptor implements AuthInterceptor {
                 .findById(UUID.fromString(userId))
                 .map(context -> {
                     log.info("Trying to authenticate user with context: {}", context);
+                    log.info("Predicate result : {}", restrictionPredicate.test(context));
                     return context;
                 })
                 .filter(restrictionPredicate)

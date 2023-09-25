@@ -17,10 +17,12 @@ interface JpaUserRepository extends JpaRepository<User, UUID> {
                 u.email,
                 u.firstName,
                 u.lastName,
-                u.memberBand.id,
-                u.ownedBand.id
+                b2.id.value,
+                b1.id.value
            )
            FROM USERS u
+           LEFT JOIN BANDS b1 ON b1.adminUser.id = u.id
+           LEFT JOIN BANDS b2 ON u.memberBand.id.value = b2.id.value
            WHERE u.id = :id
            """)
     Optional<UserDataDto> findUserContextById(final UUID id);

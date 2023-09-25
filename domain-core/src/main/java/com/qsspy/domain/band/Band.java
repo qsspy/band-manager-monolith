@@ -22,7 +22,8 @@ public class Band {
     @Embedded
     private BandName name;
 
-    @OneToOne(mappedBy = "ownedBand")
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "BAND_ADMIN_ID", referencedColumnName = "ID")
     private User adminUser;
 
     @OneToMany(mappedBy = "memberBand", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -179,23 +180,27 @@ public class Band {
             throw new DomainException("Member is already assigned to this band!");
         }
 
-        memberPrivileges.add(
-                BandMemberPrivileges.builder()
-                        .id(new BandMemberPrivilegesId(id.getValue(), userToAdd.getId()))
+        final var privilegeId = new BandMemberPrivilegesId(id.getValue(), userToAdd.getId());
+        if(memberPrivileges.stream().noneMatch(privilege -> privilege.getId().equals(privilegeId))) {
+            memberPrivileges.add(
+                    BandMemberPrivileges.builder()
+                            .id(privilegeId)
 
-                        .canAccessCalendar(defaultBandPrivileges.getCanAccessCalendar())
-                        .canAddCalendarEntries(defaultBandPrivileges.getCanAddCalendarEntries())
-                        .canEditCalendarEntries(defaultBandPrivileges.getCanEditCalendarEntries())
-                        .canDeleteCalendarEntries(defaultBandPrivileges.getCanDeleteCalendarEntries())
+                            .canAccessCalendar(defaultBandPrivileges.getCanAccessCalendar())
+                            .canAddCalendarEntries(defaultBandPrivileges.getCanAddCalendarEntries())
+                            .canEditCalendarEntries(defaultBandPrivileges.getCanEditCalendarEntries())
+                            .canDeleteCalendarEntries(defaultBandPrivileges.getCanDeleteCalendarEntries())
 
-                        .canAccessFinanceHistory(defaultBandPrivileges.getCanAccessFinanceHistory())
-                        .canAddFinanceEntries(defaultBandPrivileges.getCanAddFinanceEntries())
+                            .canAccessFinanceHistory(defaultBandPrivileges.getCanAccessFinanceHistory())
+                            .canAddFinanceEntries(defaultBandPrivileges.getCanAddFinanceEntries())
 
-                        .canSeeFinanceIncomeEntries(defaultBandPrivileges.getCanSeeFinanceIncomeEntries())
-                        .canSeeFinanceOutcomeEntries(defaultBandPrivileges.getCanSeeFinanceOutcomeEntries())
-                        .build()
-        );
+                            .canSeeFinanceIncomeEntries(defaultBandPrivileges.getCanSeeFinanceIncomeEntries())
+                            .canSeeFinanceOutcomeEntries(defaultBandPrivileges.getCanSeeFinanceOutcomeEntries())
+                            .build()
+            );
+        }
 
+        userToAdd.setMemberBand(this);
         return this;
     }
 
@@ -208,8 +213,13 @@ public class Band {
             throw new DomainException("No such member in this company!");
         }
 
-        memberPrivileges.removeIf(member -> member.getId().getMemberId().equals(userId) && member.getId().getBandId().equals(id.getValue()));
-        bandMembers.removeIf(member -> member.getId().equals(userId));
+        bandMembers.stream()
+                .filter(member -> member.getId().equals(userId))
+                .findFirst()
+                .ifPresent(user -> {
+                    user.setMemberBand(null);
+                    bandMembers.remove(user);
+                });
 
         return this;
     }

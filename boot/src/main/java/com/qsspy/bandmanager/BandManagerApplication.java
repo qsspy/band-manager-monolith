@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication(
 		scanBasePackages = {
+				"com.qsspy.bandmanager",
 				"com.qsspy.authservice",
 				"com.qsspy.bands",
 				"com.qsspy.finances",

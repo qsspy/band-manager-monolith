@@ -16,7 +16,7 @@ interface JpaFinanceEntryQueryRepository extends JpaRepository<FinanceEntry, UUI
     @Query("""
            SELECT SUM(f.amount.value)
            FROM FINANCE_ENTRIES f
-           WHERE f.bandId = :bandId
+           WHERE f.bandId.value = :bandId
            """)
     BigDecimal getSumOfFinanceEntriesAmounts(final UUID bandId);
 
@@ -29,38 +29,24 @@ interface JpaFinanceEntryQueryRepository extends JpaRepository<FinanceEntry, UUI
                 FE.isOutcome
            )
            FROM FINANCE_ENTRIES FE
-           INNER JOIN BANDS B ON FE.bandId.value = B.id.value
-           INNER JOIN USERS U ON B.id.value = U.memberBand.id.value OR B.id.value = U.ownedBand.id.value
-           WHERE
-                FE.bandId.value = :bandId
-                AND U.id = :memberId
-                AND
-                (
-                    U.ownedBand.id.value = :bandId
-                    OR
-                    CASE
-                        WHEN FE.isOutcome THEN
-                            CASE WHEN (SELECT MP.canSeeFinanceOutcomeEntries
-                                       FROM BAND_MEMBER_PRIVILEGES MP
-                                       WHERE MP.id.bandId = B.id.value AND MP.id.memberId = U.id) IS NULL THEN (SELECT BP.canSeeFinanceOutcomeEntries.isAllowed
-                                                                                                                FROM DEFAULT_BAND_PRIVILEGES BP
-                                                                                                                WHERE BP.id.value = B.id.value)
-                                 ELSE (SELECT MP.canSeeFinanceOutcomeEntries.isAllowed
-                                       FROM BAND_MEMBER_PRIVILEGES MP
-                                       WHERE MP.id.bandId = B.id.value AND MP.id.memberId = U.id)
-                            END
-                        ELSE
-                            CASE WHEN (SELECT MP.canSeeFinanceIncomeEntries
-                                       FROM BAND_MEMBER_PRIVILEGES MP
-                                       WHERE MP.id.bandId = B.id.value AND MP.id.memberId = U.id) IS NULL THEN (SELECT BP.canSeeFinanceIncomeEntries.isAllowed
-                                                                                                                FROM DEFAULT_BAND_PRIVILEGES BP
-                                                                                                                WHERE BP.id.value = B.id.value)
-                                 ELSE (SELECT MP.canSeeFinanceIncomeEntries.isAllowed
-                                       FROM BAND_MEMBER_PRIVILEGES MP
-                                       WHERE MP.id.memberId = B.id.value AND MP.id.memberId = U.id)
-                            END
-                    END
-                )
+           INNER JOIN BANDS B ON B.id.value = FE.bandId.value
+           LEFT JOIN USERS U1 ON U1.id = B.adminUser.id
+           LEFT JOIN USERS U2 ON U2.memberBand.id.value = B.id.value
+           INNER JOIN DEFAULT_BAND_PRIVILEGES DP ON DP.id.value = B.id.value
+           WHERE B.id.value = :bandId
+               AND
+                    (
+                        U1.id = :memberId
+                        OR
+                        (
+                           U2.id = :memberId
+                           AND
+                           CASE
+                                WHEN FE.isOutcome THEN DP.canSeeFinanceOutcomeEntries.isAllowed
+                                ELSE DP.canSeeFinanceIncomeEntries.isAllowed
+                           END
+                        )
+                    )
            """)
     List<FinanceEntryDTO> getFinanceEntriesInContextOfMemberPrivileges(final UUID bandId, final UUID memberId);
 }
