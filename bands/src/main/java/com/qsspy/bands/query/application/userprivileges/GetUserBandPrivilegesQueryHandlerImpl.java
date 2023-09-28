@@ -1,7 +1,5 @@
 package com.qsspy.bands.query.application.userprivileges;
 
-import com.qsspy.bands.query.application.defaultprivileges.port.input.GetBandDefaultPrivilegesQueryResult;
-import com.qsspy.bands.query.application.defaultprivileges.port.output.dto.BandDefaultPrivilegesDTO;
 import com.qsspy.bands.query.application.userprivileges.port.input.GetUserBandPrivilegesQuery;
 import com.qsspy.bands.query.application.userprivileges.port.input.GetUserBandPrivilegesQueryHandler;
 import com.qsspy.bands.query.application.userprivileges.port.input.GetUserBandPrivilegesQueryResult;

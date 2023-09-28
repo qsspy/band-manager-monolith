@@ -2,7 +2,9 @@ package com.qsspy.domain.band;
 
 import com.qsspy.commons.architecture.ddd.DomainEntity;
 import com.qsspy.commons.architecture.ddd.DomainValidationException;
-import jakarta.persistence.*;
+import jakarta.persistence.Embedded;
+import jakarta.persistence.EmbeddedId;
+import jakarta.persistence.Entity;
 import lombok.*;
 
 @Builder(access = AccessLevel.PACKAGE)

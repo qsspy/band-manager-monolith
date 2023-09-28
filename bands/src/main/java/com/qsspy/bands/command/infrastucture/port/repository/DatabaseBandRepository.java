@@ -1,10 +1,8 @@
 package com.qsspy.bands.command.infrastucture.port.repository;
 
 import com.qsspy.bands.command.application.common.port.output.BandSaveRepository;
-import com.qsspy.bands.command.application.common.port.output.BandUserGetRepository;
 import com.qsspy.bands.command.application.common.port.output.GetBandByIdRepository;
 import com.qsspy.domain.band.Band;
-import com.qsspy.domain.user.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

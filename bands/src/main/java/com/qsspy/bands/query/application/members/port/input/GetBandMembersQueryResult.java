@@ -1,8 +1,6 @@
 package com.qsspy.bands.query.application.members.port.input;
 
-import com.qsspy.commons.architecture.cqrs.Query;
 import com.qsspy.commons.architecture.cqrs.QueryResult;
-import com.qsspy.commons.architecture.cqrs.QueryValidationException;
 import lombok.Builder;
 
 import java.util.List;

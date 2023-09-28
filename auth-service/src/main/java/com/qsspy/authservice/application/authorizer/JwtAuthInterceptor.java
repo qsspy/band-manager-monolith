@@ -2,7 +2,6 @@ package com.qsspy.authservice.application.authorizer;
 
 import com.qsspy.authservice.application.authorizer.port.input.AuthInterceptor;
 import com.qsspy.authservice.application.authorizer.port.input.UserContext;
-import com.qsspy.authservice.application.authorizer.port.input.UserUnauthorizedException;
 import com.qsspy.authservice.application.authorizer.port.output.UserContextRepository;
 import com.qsspy.authservice.application.common.CustomJwtClaim;
 import com.qsspy.authservice.application.common.port.output.TokenGenerationSecretProvider;

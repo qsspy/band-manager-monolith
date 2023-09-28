@@ -2,8 +2,13 @@ package com.qsspy.domain.calendar;
 
 import com.qsspy.commons.architecture.ddd.DomainEntity;
 import com.qsspy.commons.architecture.ddd.DomainValidationException;
-import jakarta.persistence.*;
-import lombok.*;
+import jakarta.persistence.Embedded;
+import jakarta.persistence.EmbeddedId;
+import jakarta.persistence.Entity;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
 
 import java.util.UUID;
 

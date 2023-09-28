@@ -2,8 +2,14 @@ package com.qsspy.domain.finances;
 
 import com.qsspy.commons.architecture.ddd.AggregateRoot;
 import com.qsspy.commons.architecture.ddd.DomainValidationException;
-import jakarta.persistence.*;
-import lombok.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Embedded;
+import jakarta.persistence.EmbeddedId;
+import jakarta.persistence.Entity;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
 import org.springframework.lang.Nullable;
 
 @Builder(access = AccessLevel.PACKAGE)

@@ -6,7 +6,10 @@ import com.qsspy.domain.band.dto.DefaultPrivilegesChangeSpecification;
 import com.qsspy.domain.band.dto.MemberPrivilegesChangeSpecification;
 import com.qsspy.domain.user.User;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 import java.util.UUID;

@@ -3,7 +3,6 @@ package com.qsspy.bands.command.application.creation.port.input;
 import com.qsspy.commons.architecture.cqrs.Command;
 import com.qsspy.commons.architecture.cqrs.CommandValidationException;
 import lombok.Builder;
-import org.springframework.lang.Nullable;
 
 import java.util.UUID;
 

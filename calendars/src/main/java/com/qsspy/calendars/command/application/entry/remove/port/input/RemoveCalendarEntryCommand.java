@@ -3,6 +3,7 @@ package com.qsspy.calendars.command.application.entry.remove.port.input;
 import com.qsspy.commons.architecture.cqrs.Command;
 import com.qsspy.commons.architecture.cqrs.CommandValidationException;
 import lombok.Builder;
+
 import java.util.UUID;
 
 @Builder

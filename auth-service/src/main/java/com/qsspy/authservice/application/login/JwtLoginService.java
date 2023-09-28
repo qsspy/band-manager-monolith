@@ -1,10 +1,10 @@
 package com.qsspy.authservice.application.login;
 
 import com.qsspy.authservice.application.common.CustomJwtClaim;
+import com.qsspy.authservice.application.common.port.output.TokenGenerationSecretProvider;
 import com.qsspy.authservice.application.login.port.input.LoginService;
 import com.qsspy.authservice.application.login.port.input.UserWrongCredentialsException;
 import com.qsspy.authservice.application.login.port.output.TokenGenerationExpirationTimeProvider;
-import com.qsspy.authservice.application.common.port.output.TokenGenerationSecretProvider;
 import com.qsspy.authservice.application.login.port.output.UserLoginRepository;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
