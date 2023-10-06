@@ -1,4 +1,4 @@
-package com.qsspy.bands.command.infrastucture.adapter.controller;
+package com.qsspy.bands.command.infrastructure.adapter.controller;
 
 import com.qsspy.bands.command.application.defaultprivileges.port.input.ChangeBandDefaultPrivilegesCommand;
 import com.qsspy.bands.command.application.member.changeprivileges.port.input.ChangeMemberPrivilegesCommand;

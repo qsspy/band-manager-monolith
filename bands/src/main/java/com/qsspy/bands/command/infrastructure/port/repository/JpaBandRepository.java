@@ -1,4 +1,4 @@
-package com.qsspy.bands.command.infrastucture.port.repository;
+package com.qsspy.bands.command.infrastructure.port.repository;
 
 import com.qsspy.domain.band.Band;
 import org.springframework.data.jpa.repository.JpaRepository;
