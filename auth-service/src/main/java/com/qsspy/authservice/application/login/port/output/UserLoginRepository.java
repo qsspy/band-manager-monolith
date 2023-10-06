@@ -12,5 +12,5 @@ public interface UserLoginRepository {
      * @param password user password
      * @return check result
      */
-    Optional<UUID> getUserIdByCredentials(final String email, final String password);
+    Optional<UserLoginDTO> getUserLoginDataByCredentials(final String email, final String password);
 }

@@ -28,7 +28,11 @@ interface JpaUserRepository extends JpaRepository<User, UUID> {
     Optional<UserDataDto> findUserContextById(final UUID id);
 
     @Query("""
-           SELECT u.id
+           SELECT new com.qsspy.authservice.application.login.port.output.UserLoginDTO(
+                u.id,
+                u.ownedBand.id.value,
+                u.memberBand.id.value
+           )
            FROM USERS u
            WHERE
                 u.email = :email

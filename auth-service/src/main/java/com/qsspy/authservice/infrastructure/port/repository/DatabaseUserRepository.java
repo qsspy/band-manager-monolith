@@ -2,6 +2,7 @@ package com.qsspy.authservice.infrastructure.port.repository;
 
 import com.qsspy.authservice.application.authorizer.port.input.UserContext;
 import com.qsspy.authservice.application.authorizer.port.output.UserContextRepository;
+import com.qsspy.authservice.application.login.port.output.UserLoginDTO;
 import com.qsspy.authservice.application.login.port.output.UserLoginRepository;
 import com.qsspy.authservice.application.register.port.input.RegisterCommand;
 import com.qsspy.authservice.application.register.port.output.UserRegisterRepository;
@@ -42,7 +43,7 @@ class DatabaseUserRepository implements UserContextRepository, UserLoginReposito
     }
 
     @Override
-    public Optional<UUID> getUserIdByCredentials(final String email, final String password) {
+    public Optional<UserLoginDTO> getUserLoginDataByCredentials(final String email, final String password) {
         return jpaUserRepository.findUserIdByEmailAndPassword(email, password);
     }
 

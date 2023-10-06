@@ -7,4 +7,5 @@ import lombok.NoArgsConstructor;
 public final class CustomJwtClaim {
 
     public static final String USER_ID = "usi";
+    public static final String BAND_ID = "bdi";
 }

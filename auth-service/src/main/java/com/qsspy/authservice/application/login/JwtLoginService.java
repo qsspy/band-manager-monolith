@@ -5,6 +5,7 @@ import com.qsspy.authservice.application.common.port.output.TokenGenerationSecre
 import com.qsspy.authservice.application.login.port.input.LoginService;
 import com.qsspy.authservice.application.login.port.input.UserWrongCredentialsException;
 import com.qsspy.authservice.application.login.port.output.TokenGenerationExpirationTimeProvider;
+import com.qsspy.authservice.application.login.port.output.UserLoginDTO;
 import com.qsspy.authservice.application.login.port.output.UserLoginRepository;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -27,19 +28,20 @@ class JwtLoginService implements LoginService {
     @Override
     public String login(final String email, final String password) {
         return userLoginRepository
-                .getUserIdByCredentials(email, password)
-                .map(id -> generateJwtToken(email, id))
+                .getUserLoginDataByCredentials(email, password)
+                .map(loginData -> generateJwtToken(email, loginData))
                 .orElseThrow(UserWrongCredentialsException::new);
     }
 
-    private String generateJwtToken(final String email, final UUID userId) {
+    private String generateJwtToken(final String email, final UserLoginDTO loginData) {
 
         final var currentDateTimestamp = System.currentTimeMillis();
         final var key = Keys.hmacShaKeyFor(tokenGenerationPropertiesProvider.getSecret().getBytes(StandardCharsets.UTF_8));
         return Jwts
                 .builder()
                 .setSubject(email)
-                .claim(CustomJwtClaim.USER_ID, userId.toString())
+                .claim(CustomJwtClaim.USER_ID, loginData.userId().toString())
+                .claim(CustomJwtClaim.BAND_ID, loginData.getBandMembershipUuid() != null ? loginData.getBandMembershipUuid().toString() : null)
                 .setIssuedAt(new Date(currentDateTimestamp))
                 .setExpiration(new Date(currentDateTimestamp + expirationTimeAsMillis()))
                 .signWith(key, SignatureAlgorithm.HS512).compact();
