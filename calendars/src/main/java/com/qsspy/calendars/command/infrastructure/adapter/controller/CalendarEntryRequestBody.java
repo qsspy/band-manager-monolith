@@ -1,4 +1,4 @@
-package com.qsspy.calendars.command.intrestructure.adapter.controller;
+package com.qsspy.calendars.command.infrastructure.adapter.controller;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.qsspy.domain.calendar.EventKind;

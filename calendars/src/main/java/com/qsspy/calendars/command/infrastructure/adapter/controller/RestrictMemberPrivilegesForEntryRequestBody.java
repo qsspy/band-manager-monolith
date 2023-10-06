@@ -1,4 +1,4 @@
-package com.qsspy.calendars.command.intrestructure.adapter.controller;
+package com.qsspy.calendars.command.infrastructure.adapter.controller;
 
 record RestrictMemberPrivilegesForEntryRequestBody(
         boolean canSeeCalendarEntry,

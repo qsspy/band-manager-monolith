@@ -1,4 +1,4 @@
-package com.qsspy.calendars.command.intrestructure.adapter.controller;
+package com.qsspy.calendars.command.infrastructure.adapter.controller;
 
 import com.qsspy.authservice.application.authorizer.port.input.AuthInterceptor;
 import com.qsspy.authservice.application.authorizer.port.input.UserContext;

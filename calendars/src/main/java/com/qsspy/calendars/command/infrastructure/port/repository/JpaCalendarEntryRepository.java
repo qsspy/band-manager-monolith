@@ -1,4 +1,4 @@
-package com.qsspy.calendars.command.intrestructure.port.repository;
+package com.qsspy.calendars.command.infrastructure.port.repository;
 
 import com.qsspy.domain.calendar.CalendarEntry;
 import org.springframework.data.jpa.repository.JpaRepository;

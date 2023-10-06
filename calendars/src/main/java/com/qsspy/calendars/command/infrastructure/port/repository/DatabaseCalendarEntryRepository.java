@@ -1,4 +1,4 @@
-package com.qsspy.calendars.command.intrestructure.port.repository;
+package com.qsspy.calendars.command.infrastructure.port.repository;
 
 import com.qsspy.calendars.command.application.entry.common.port.output.CalendarEntryGetRepository;
 import com.qsspy.calendars.command.application.entry.common.port.output.CalendarEntrySaveRepository;
