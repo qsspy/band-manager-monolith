@@ -1,4 +1,4 @@
-package com.qsspy.bands.command.infrastucture.adapter.controller;
+package com.qsspy.bands.command.infrastructure.adapter.controller;
 
 import com.qsspy.authservice.application.authorizer.port.input.AuthInterceptor;
 import com.qsspy.bands.command.application.creation.port.input.CreateBandCommand;

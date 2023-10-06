@@ -1,4 +1,4 @@
-package com.qsspy.bands.command.infrastucture.adapter.controller;
+package com.qsspy.bands.command.infrastructure.adapter.controller;
 
 import org.springframework.lang.Nullable;
 

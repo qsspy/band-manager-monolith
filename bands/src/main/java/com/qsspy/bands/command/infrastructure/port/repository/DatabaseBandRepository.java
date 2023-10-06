@@ -1,4 +1,4 @@
-package com.qsspy.bands.command.infrastucture.port.repository;
+package com.qsspy.bands.command.infrastructure.port.repository;
 
 import com.qsspy.bands.command.application.common.port.output.BandSaveRepository;
 import com.qsspy.bands.command.application.common.port.output.GetBandByIdRepository;
