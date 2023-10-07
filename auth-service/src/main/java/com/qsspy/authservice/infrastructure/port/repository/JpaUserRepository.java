@@ -1,5 +1,6 @@
 package com.qsspy.authservice.infrastructure.port.repository;
 
+import com.qsspy.authservice.application.login.port.output.UserLoginDTO;
 import com.qsspy.domain.user.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -38,7 +39,7 @@ interface JpaUserRepository extends JpaRepository<User, UUID> {
                 u.email = :email
                 AND u.password = :password
            """)
-    Optional<UUID> findUserIdByEmailAndPassword(final String email, final String password);
+    Optional<UserLoginDTO> findUserIdByEmailAndPassword(final String email, final String password);
 
     boolean existsByEmail(final String email);
 }
