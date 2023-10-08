@@ -33,10 +33,18 @@
 		<maven-compiler-plugin.version>3.11.0</maven-compiler-plugin.version>
 
 		<lombok.version>1.18.30</lombok.version>
+		<spring-cloud-dependencies.version>2022.0.4</spring-cloud-dependencies.version>
 	</properties>
 
 	<dependencyManagement>
 		<dependencies>
+			<dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-dependencies</artifactId>
+				<version>${spring-cloud-dependencies.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
 			<dependency>
 				<groupId>com.qsspy</groupId>
 				<artifactId>auth-service</artifactId>
