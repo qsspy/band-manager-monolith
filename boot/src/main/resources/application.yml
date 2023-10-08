@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/bm-monolith-db
+    url: jdbc:postgresql://postgres:5432/bm-monolith-db
     username: sa
     password: password
     driverClassName: org.postgresql.Driver
