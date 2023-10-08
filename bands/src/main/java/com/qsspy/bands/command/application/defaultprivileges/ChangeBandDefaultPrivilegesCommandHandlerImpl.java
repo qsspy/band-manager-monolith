@@ -4,10 +4,17 @@ import com.qsspy.bands.command.application.common.port.output.BandSaveRepository
 import com.qsspy.bands.command.application.common.port.output.GetBandByIdRepository;
 import com.qsspy.bands.command.application.defaultprivileges.port.input.ChangeBandDefaultPrivilegesCommand;
 import com.qsspy.bands.command.application.defaultprivileges.port.input.ChangeBandDefaultPrivilegesCommandHandler;
+import com.qsspy.commons.architecture.port.output.publisher.MeasurementNotificationEvent;
+import com.qsspy.commons.architecture.port.output.publisher.NotificationEventPublisher;
 import com.qsspy.domain.band.Band;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.time.Instant;
+import java.util.UUID;
+
+import static com.qsspy.commons.architecture.port.output.publisher.MeasurementType.DEFAULT_PRIVILEGES_CHANGE;
 
 @Service
 @RequiredArgsConstructor

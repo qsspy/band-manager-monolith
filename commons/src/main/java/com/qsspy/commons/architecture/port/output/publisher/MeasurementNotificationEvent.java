@@ -10,7 +10,7 @@ public record MeasurementNotificationEvent(
 
         MeasurementType measurementType,
         int recordNumber,
-        int description
+        String description
 ) implements NotificationEvent {
 
     private static final int EVENT_VERSION = 1;
