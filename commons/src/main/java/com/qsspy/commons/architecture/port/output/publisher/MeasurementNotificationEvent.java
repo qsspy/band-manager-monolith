@@ -8,7 +8,6 @@ public record MeasurementNotificationEvent(
         UUID eventId,
         long occurredOn,
 
-        @JsonIgnore
         MeasurementType measurementType,
         int recordNumber,
         int description
