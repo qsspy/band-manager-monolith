@@ -9,12 +9,17 @@ import com.qsspy.bands.command.application.member.addition.port.input.AddBandMem
 import com.qsspy.bands.command.application.member.changeprivileges.port.input.ChangeMemberPrivilegesCommandHandler;
 import com.qsspy.bands.command.application.member.removal.port.input.RemoveBandMemberCommand;
 import com.qsspy.bands.command.application.member.removal.port.input.RemoveBandMemberCommandHandler;
+import com.qsspy.commons.architecture.port.output.publisher.MeasurementNotificationEvent;
+import com.qsspy.commons.architecture.port.output.publisher.MeasurementStartedNotificationEvent;
+import com.qsspy.commons.architecture.port.output.publisher.MeasurementType;
+import com.qsspy.commons.architecture.port.output.publisher.NotificationEventPublisher;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.Instant;
 import java.util.UUID;
 
 @RestController
@@ -29,6 +34,7 @@ class BandCommandController {
     private final ChangeMemberPrivilegesCommandHandler changeMemberPrivilegesCommandHandler;
     private final AddBandMemberCommandHandler addBandMemberCommandHandler;
     private final RemoveBandMemberCommandHandler removeBandMemberCommandHandler;
+    private final NotificationEventPublisher publisher;
 
     @PostMapping
     ResponseEntity<Object> createBand(
@@ -66,6 +72,13 @@ class BandCommandController {
                 token,
                 bandId,
                 context -> {
+
+                    publisher.publish(new MeasurementStartedNotificationEvent(
+                            UUID.randomUUID(),
+                            Instant.now().toEpochMilli(),
+                            MeasurementType.DEFAULT_PRIVILEGES_REPLICATED
+                    ));
+
                     final var command = RequestToCommandMapper.toCommand(bandId, request);
                     try {
                         changeBandDefaultPrivilegesCommandHandler.handle(command);
@@ -73,6 +86,12 @@ class BandCommandController {
                     } catch (final Exception exception) {
                         log.error("An error occurred during changing band default privileges", exception);
                         return ResponseEntity.internalServerError().build();
+                    } finally {
+                        publisher.publish(new MeasurementNotificationEvent(
+                                UUID.randomUUID(),
+                                Instant.now().toEpochMilli(),
+                                MeasurementType.DEFAULT_PRIVILEGES_REPLICATED
+                        ));
                     }
                 },
                 () -> ResponseEntity.internalServerError().build()

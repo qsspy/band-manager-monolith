@@ -11,7 +11,8 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 				"com.qsspy.authservice",
 				"com.qsspy.bands",
 				"com.qsspy.finances",
-				"com.qsspy.calendars"
+				"com.qsspy.calendars",
+				"com.qsspy.commons.architecture.port.output.publisher"
 		}
 )
 @EnableJpaRepositories(
