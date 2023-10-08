@@ -31,10 +31,12 @@ interface JpaUserRepository extends JpaRepository<User, UUID> {
     @Query("""
            SELECT new com.qsspy.authservice.application.login.port.output.UserLoginDTO(
                 u.id,
-                u.ownedBand.id.value,
-                u.memberBand.id.value
+                b1.id.value,
+                b2.id.value
            )
            FROM USERS u
+           LEFT JOIN BANDS b1 ON b1.adminUser.id = u.id
+           LEFT JOIN BANDS b2 ON u.memberBand.id.value = b2.id.value
            WHERE
                 u.email = :email
                 AND u.password = :password
