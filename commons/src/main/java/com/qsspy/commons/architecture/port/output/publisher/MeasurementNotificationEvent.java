@@ -13,10 +13,11 @@ public record MeasurementNotificationEvent(
 ) implements NotificationEvent {
 
     private static final int EVENT_VERSION = 1;
+    private static final String EVENT_TYPE = "measurement";
 
     @Override
     public String eventType() {
-        return measurementType.toString();
+        return EVENT_TYPE;
     }
 
     @Override
