@@ -9,7 +9,9 @@ public record MeasurementNotificationEvent(
         long occurredOn,
 
         @JsonIgnore
-        MeasurementType measurementType
+        MeasurementType measurementType,
+        int recordNumber,
+        int description
 ) implements NotificationEvent {
 
     private static final int EVENT_VERSION = 1;
