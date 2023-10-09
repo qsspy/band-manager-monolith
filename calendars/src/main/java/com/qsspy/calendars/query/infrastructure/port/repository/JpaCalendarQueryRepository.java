@@ -77,7 +77,7 @@ interface JpaCalendarQueryRepository extends JpaRepository<CalendarEntry, UUID> 
            FROM CALENDAR_ENTRIES CE
            INNER JOIN BANDS B ON B.id.value = CE.bandId.value
            LEFT JOIN USERS U1 ON U1.id = B.adminUser.id
-           LEFT JOIN USERS U2 ON U2.memberBand.id.value = B.id.value
+           LEFT JOIN USERS U2 ON U2.memberBand.id.value = :memberId
            LEFT JOIN RESTRICTED_CALENDAR_ENTRY_VIEWER_PRIVILEGES EP on EP.id.memberId = U2.id AND EP.id.entryId = CE.id.value
            INNER JOIN DEFAULT_BAND_PRIVILEGES DP ON DP.id.value = B.id.value
            WHERE B.id.value = :bandId

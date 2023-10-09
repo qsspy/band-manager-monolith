@@ -8,9 +8,7 @@ public record MeasurementNotificationEvent(
         UUID eventId,
         long occurredOn,
 
-        MeasurementType measurementType,
-        int recordNumber,
-        int description
+        MeasurementType measurementType
 ) implements NotificationEvent {
 
     private static final int EVENT_VERSION = 1;

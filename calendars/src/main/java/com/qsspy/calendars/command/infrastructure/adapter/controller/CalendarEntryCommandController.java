@@ -6,12 +6,17 @@ import com.qsspy.calendars.command.application.entry.create.port.input.CreateCal
 import com.qsspy.calendars.command.application.entry.edit.port.input.EditCalendarEntryCommandHandler;
 import com.qsspy.calendars.command.application.entry.remove.port.input.RemoveCalendarEntryCommandHandler;
 import com.qsspy.calendars.command.application.entry.restriction.port.input.RestrictMemberPrivilegesForEntryCommandHandler;
+import com.qsspy.commons.architecture.port.output.publisher.MeasurementNotificationEvent;
+import com.qsspy.commons.architecture.port.output.publisher.MeasurementStartedNotificationEvent;
+import com.qsspy.commons.architecture.port.output.publisher.MeasurementType;
+import com.qsspy.commons.architecture.port.output.publisher.NotificationEventPublisher;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.Instant;
 import java.util.UUID;
 
 @RestController
@@ -25,6 +30,7 @@ class CalendarEntryCommandController {
     private final RemoveCalendarEntryCommandHandler removeCalendarEntryCommandHandler;
     private final EditCalendarEntryCommandHandler editCalendarEntryCommandHandler;
     private final RestrictMemberPrivilegesForEntryCommandHandler restrictMemberPrivilegesForEntryCommandHandler;
+    private final NotificationEventPublisher publisher;
 
     @PostMapping("/calendar/entries")
     ResponseEntity<Object> addCalendarEntry(
@@ -45,6 +51,12 @@ class CalendarEntryCommandController {
                     } catch (final Exception exception) {
                         log.error("An error occurred while adding calendar entry", exception);
                         return ResponseEntity.internalServerError().build();
+                    } finally {
+                        publisher.publish(new MeasurementNotificationEvent(
+                                UUID.randomUUID(),
+                                Instant.now().toEpochMilli(),
+                                MeasurementType.CALENDAR_DATA_REPLICATED
+                        ));
                     }
                 },
                 () -> ResponseEntity.internalServerError().build()
@@ -122,6 +134,12 @@ class CalendarEntryCommandController {
                     } catch (final Exception exception) {
                         log.error("An error occurred while editing calendar entry privileges for member", exception);
                         return ResponseEntity.internalServerError().build();
+                    } finally {
+                        publisher.publish(new MeasurementNotificationEvent(
+                                UUID.randomUUID(),
+                                Instant.now().toEpochMilli(),
+                                MeasurementType.CALENDAR_DATA_REPLICATED
+                        ));
                     }
                 },
                 () -> ResponseEntity.internalServerError().build()

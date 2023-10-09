@@ -8,12 +8,17 @@ import com.qsspy.calendars.query.application.entries.list.port.input.GetCalendar
 import com.qsspy.calendars.query.application.entries.list.port.input.GetCalendarEntryListQueryHandler;
 import com.qsspy.calendars.query.application.membersrestrictions.port.input.GetCalendarEntryMemberRestrictionQuery;
 import com.qsspy.calendars.query.application.membersrestrictions.port.input.GetCalendarEntryMemberRestrictionQueryHandler;
+import com.qsspy.commons.architecture.port.output.publisher.MeasurementNotificationEvent;
+import com.qsspy.commons.architecture.port.output.publisher.MeasurementStartedNotificationEvent;
+import com.qsspy.commons.architecture.port.output.publisher.MeasurementType;
+import com.qsspy.commons.architecture.port.output.publisher.NotificationEventPublisher;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.Instant;
 import java.util.UUID;
 
 @RestController
@@ -26,6 +31,7 @@ class CalendarEntryQueryController {
     private final GetCalendarEntryMemberRestrictionQueryHandler getCalendarEntryMemberRestrictionQueryHandler;
     private final GetCalendarEntryDetailsQueryHandler getCalendarEntryDetailsQueryHandler;
     private final GetCalendarEntryListQueryHandler getCalendarEntryListQueryHandler;
+    private final NotificationEventPublisher publisher;
 
     @GetMapping("/calendar/entries/member-privileges")
     ResponseEntity<GetCalendarEntryMemberRestrictionQueryResponse> getCalenderEntryMemberRestrictions(
@@ -89,6 +95,12 @@ class CalendarEntryQueryController {
                 context -> {
                     final var query = new GetCalendarEntryListQuery(bandId, context.userId());
 
+                    publisher.publish(new MeasurementStartedNotificationEvent(
+                            UUID.randomUUID(),
+                            Instant.now().toEpochMilli(),
+                            MeasurementType.CALENDAR_DATA_QUERIED
+                    ));
+
                     try {
                         final var result = getCalendarEntryListQueryHandler.handle(query);
                         final var response = QueryResultToResponseMapper.toResponse(result);
@@ -96,6 +108,12 @@ class CalendarEntryQueryController {
                     } catch (final Exception exception) {
                         log.error("An error occurred while fetching calendar entries", exception);
                         return ResponseEntity.internalServerError().build();
+                    } finally {
+                        publisher.publish(new MeasurementNotificationEvent(
+                                UUID.randomUUID(),
+                                Instant.now().toEpochMilli(),
+                                MeasurementType.CALENDAR_DATA_QUERIED
+                        ));
                     }
                 },
                 () -> ResponseEntity.internalServerError().build()

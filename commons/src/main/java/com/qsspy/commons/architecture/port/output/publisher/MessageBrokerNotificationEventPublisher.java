@@ -6,12 +6,12 @@ import org.springframework.cloud.stream.function.StreamBridge;
 import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Component;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
+import java.util.EnumMap;
+import java.util.Map;
+import java.util.concurrent.*;
 
 @Slf4j
 @Component
@@ -26,8 +26,24 @@ class MessageBrokerNotificationEventPublisher implements NotificationEventPublis
 
     private final ExecutorService asyncPublishingExecutor = Executors.newVirtualThreadPerTaskExecutor();
 
+    private final Map<MeasurementType, Long> measurementFilter = new ConcurrentHashMap<>();
+    private static final long CACHE_MILLIS_TIME = 1000;
+
     @Override
     public void publish(final NotificationEvent event) {
+
+        if(event instanceof MeasurementNotificationEvent event1) {
+            final var type = event1.measurementType();
+            final var cachedTypeTime = measurementFilter.get(type);
+            if(cachedTypeTime != null) {
+                if(Instant.now().toEpochMilli() - CACHE_MILLIS_TIME < cachedTypeTime) {
+                    log.info("Skip publishing");
+                    return;
+                }
+                measurementFilter.put(type, Instant.now().toEpochMilli());
+            }
+            measurementFilter.put(type, Instant.now().toEpochMilli());
+        }
 
         final var message = MessageBuilder
                 .withPayload(event)
